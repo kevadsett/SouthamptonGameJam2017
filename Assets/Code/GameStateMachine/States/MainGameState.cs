@@ -145,26 +145,22 @@ public class MainGameState : GameState
 		bool someoneWasWrong = false;
         if (_player1.GetCurrentPose().Equals(pose))
 		{
-			Debug.Log ("Player 1 got it right");
 			_player1Score++;
 			ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
 		}
 		else
 		{
-			Debug.Log ("Player 1 got it wrong");
 			_player1Lives--;
 			ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
 			someoneWasWrong = true;
 		}
 		if (_player2.GetCurrentPose().Equals(pose))
 		{
-			Debug.Log ("Player 2 got it right");
 			_player2Score++;
 			ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);
 		}
 		else
 		{
-			Debug.Log ("Player 2 got it wrong");
 			_player2Lives--;
 			ViewBindings.Instance.BindValue ("Player2Lives", "" + _player2Lives);
 			someoneWasWrong = true;

@@ -10,7 +10,7 @@ public class LoadGameState : GameState
 
 	public override void Update()
     {
-        StateMachine.ChangeState(eGameState.Game);
+        StateMachine.ChangeState(eGameState.Start);
     }
 }
 

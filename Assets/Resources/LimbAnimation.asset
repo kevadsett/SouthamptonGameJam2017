@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faaf035eeee584985af530c316e11b0b, type: 3}
   m_Name: LimbAnimation
   m_EditorClassIdentifier: 
-  Duration: 0.6
+  Duration: 0.76
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -25,40 +25,30 @@ MonoBehaviour:
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    - time: 0.38465622
-      value: 0.6382861
+    - time: 0.34854484
+      value: 0.7127361
       inSlope: -0.011920929
       outSlope: -0.011920929
       tangentMode: 0
-    - time: 0.49268883
-      value: 0.96953493
+    - time: 0.42247224
+      value: 0.9645389
       inSlope: 1.4966726
       outSlope: 1.4966726
       tangentMode: 0
-    - time: 0.6085958
-      value: 0.8192799
+    - time: 0.5704782
+      value: 0.90861475
       inSlope: -0.36418438
       outSlope: -0.36418438
       tangentMode: 0
-    - time: 0.7215454
-      value: 0.9935357
+    - time: 0.69345874
+      value: 0.9785476
       inSlope: 1.2481213
       outSlope: 1.2481213
       tangentMode: 0
-    - time: 0.83295554
-      value: 0.9184878
+    - time: 0.8610422
+      value: 0.97815627
       inSlope: -0.04887581
       outSlope: -0.04887581
-      tangentMode: 0
-    - time: 0.8970748
-      value: 0.98922426
-      inSlope: 1.2841821
-      outSlope: 1.2841821
-      tangentMode: 0
-    - time: 0.97078985
-      value: 0.96192074
-      inSlope: -0.52809715
-      outSlope: -0.52809715
       tangentMode: 0
     - time: 1.0071068
       value: 0.98219997

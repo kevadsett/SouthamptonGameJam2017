@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3615d8fd3134f30b7b018160b6a140, type: 3}
   m_Name: LeftLeg1
   m_EditorClassIdentifier: 
-  UpperRotation: -9
-  LowerRotation: 9
+  UpperRotation: 0
+  LowerRotation: 0
