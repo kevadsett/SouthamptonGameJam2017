@@ -47,6 +47,10 @@ public class MainGameState : GameState
         GameObject backgroundPrefab = Resources.Load<GameObject>("Background");
         GameObject.Instantiate(backgroundPrefab);
 
+		// Load the audio.
+		GameObject audioPrefab = Resources.Load<GameObject>("Audio");
+		GameObject.Instantiate(audioPrefab);
+
         // Load the players.
         LimbAnimation limbAnimation = Resources.Load<LimbAnimation>("LimbAnimation");
         PoserParts poserParts = Resources.Load<PoserParts>("MrBaguetteParts");
