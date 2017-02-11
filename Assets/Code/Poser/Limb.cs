@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Limb : MonoBehaviour
 {
@@ -91,7 +91,7 @@ public class Limb : MonoBehaviour
         RotateBone(_lowerLimb.transform, previousPose.LowerRotation, currentPose.LowerRotation, currentLerp);
     }
 
-	public void UpdateLimb(float dt)
+	public void Update()
     {
         _transitionTime = Mathf.MoveTowards(_transitionTime, _limbAnimation.Duration, Time.deltaTime);
 
