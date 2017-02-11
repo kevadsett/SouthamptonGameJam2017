@@ -63,14 +63,18 @@ public class MainGameState : GameState
         _stickmanParts = Resources.Load<PoserParts>("Parts/StickmanParts");
 
         // Load the ribbon.
-		GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbon");
+        GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbon");
+		GameObject poseRibbonForegroundPrefab = Resources.Load<GameObject> ("UI/PoseRibbonForeground");
 		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseRibbonDiagram");
 		GameObject scoreLivesPrefab = Resources.Load<GameObject> ("UI/Score_Lives");
 
         // Set up the UI.
 		GameObject backgroundCanvasPrefab = Resources.Load<GameObject> ("UI/BackgroundCanvas");
 		GameObject canvasObject = GameObject.Find ("UICanvas") as GameObject;
+        GameObject backgroundCanvas = GameObject.Find("ForegroundUICanvas") as GameObject;
+
 		RectTransform canvasTransform = canvasObject.GetComponent<RectTransform> ();
+        RectTransform foregroundCanvasTransform = backgroundCanvas.GetComponent<RectTransform>();
 
 		GameObject scoreLivesUI = GameObject.Instantiate (scoreLivesPrefab);
 		scoreLivesUI.transform.SetParent (canvasTransform, false);
@@ -78,6 +82,9 @@ public class MainGameState : GameState
         _poseRibbon = GameObject.Instantiate(poseRibbonPrefab).GetComponent<PoseRibbon>();
         _poseRibbon.transform.SetParent(canvasTransform, false);
         _poseRibbon.Setup(poseDiagramPrefab);
+
+        GameObject poseRibbonForeground = GameObject.Instantiate(poseRibbonForegroundPrefab);
+        poseRibbonForeground.transform.SetParent(foregroundCanvasTransform, false);
 
 		_backgroundCanvas = GameObject.Instantiate (backgroundCanvasPrefab);
 		GameObject backgroundCameraObject = GameObject.Find ("BackgroundCamera");
