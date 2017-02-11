@@ -13,10 +13,10 @@ public class PoseRibbon
 		_poseDiagramPrefab = poseDiagramPrefab;
 	}
 
-	public void AddNewPoseDiagram(TargetPose pose)
+	public void AddNewPoseDiagram(TargetPose pose, LimbAnimation limbAnimation, PoserParts stickmanParts, PoseLibrary poseLibrary)
 	{
 		GameObject poseDiagram = GameObject.Instantiate (_poseDiagramPrefab) as GameObject;
-		poseDiagram.GetComponent<PoseDiagramController> ().SetPose (pose);
+        poseDiagram.GetComponent<PoseDiagramController>().Setup(pose, limbAnimation, stickmanParts, poseLibrary);
 		poseDiagram.transform.SetParent (_instance.transform, false);
 	}
 }

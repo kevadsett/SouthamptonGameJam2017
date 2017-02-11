@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000014050279412}
   - 114: {fileID: 114000011019323578}
   - 212: {fileID: 212000012449638744}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StickUpperLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010536173414}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010476777066}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightArmSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010521597700}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightLegSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011073461854}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010882140878}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftArmSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   - 4: {fileID: 4000013355782172}
   - 114: {fileID: 114000013213825958}
   - 212: {fileID: 212000012876487436}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StickTorso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013547435034}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftLegSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011846407774}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HeadSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}

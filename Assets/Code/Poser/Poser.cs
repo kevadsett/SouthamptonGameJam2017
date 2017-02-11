@@ -7,6 +7,7 @@ public class Poser : MonoBehaviour
     private float _velocity;
     private PoserTorso _torso;
     private Limb[] _limbs;
+    private bool _doUpdate;
 
     private static void SetupLimb(Limb[] limbs, eLimbType limbType, Transform socket, LimbAnimation limbAnimation, LimbPose[] poses, LimbPart upperLimbPrefab, LimbPart lowerLimbPrefab, KeyCode[] controls, bool flipX)
     {
@@ -21,7 +22,7 @@ public class Poser : MonoBehaviour
         limbs[limbIndex] = limb;
     }
 
-    public static Poser CreatePoser(LimbAnimation limbAnimation, PoserParts poserParts, PoseLibrary poseLibary, KeyCode[] controls)
+    public static Poser CreatePoser(bool doUpdate, LimbAnimation limbAnimation, PoserParts poserParts, PoseLibrary poseLibary, KeyCode[] controls)
     {
         GameObject gameObject = new GameObject("poser", typeof(Poser));
         Poser poser = gameObject.GetComponent<Poser>();
@@ -86,34 +87,38 @@ public class Poser : MonoBehaviour
             true
         );
 
-        poser.Setup(torso, limbs);
+        poser.Setup(doUpdate, torso, limbs);
 
         return poser;
     }
 
-    private void Setup(PoserTorso torso, Limb[] limbs)
+    private void Setup(bool doUpdate, PoserTorso torso, Limb[] limbs)
     {
+        _doUpdate = doUpdate;
         _torso = torso;
         _limbs = limbs;
     }
 
     private void Update()
     {
-        float dt = Time.deltaTime;
-        _velocity += _gravity * dt;
-
-        transform.localPosition += new Vector3(0, _velocity, 0);
-
-        float minY = float.MaxValue;
-        for(int i=0; i<_limbs.Length; i++)
+        if(_doUpdate)
         {
-            minY = Mathf.Min(_limbs[i].CollisionPoint.position.y, minY);   
-        }
-        minY = Mathf.Min(_torso.Bottom.position.y, minY);
+            float dt = Time.deltaTime;
+            _velocity += _gravity * dt;
 
-        if(minY < 0f)
-        {
-            transform.localPosition -= new Vector3(0, minY, 0);
+            transform.localPosition += new Vector3(0, _velocity, 0);
+
+            float minY = float.MaxValue;
+            for(int i=0; i<_limbs.Length; i++)
+            {
+                minY = Mathf.Min(_limbs[i].CollisionPoint.position.y, minY);   
+            }
+            minY = Mathf.Min(_torso.Bottom.position.y, minY);
+
+            if(minY < 0f)
+            {
+                transform.localPosition -= new Vector3(0, minY, 0);
+            }
         }
     }
 
