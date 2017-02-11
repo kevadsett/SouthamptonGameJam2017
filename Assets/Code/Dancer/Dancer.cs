@@ -6,11 +6,10 @@ public class Dancer : MonoBehaviour
     public Transform RightArmSocket;
     public Transform LeftLegSocket;
     public Transform RightLegSocket;
+    public float Gravity;
 
-    private Limb leftArm;
-    private Limb rightArm;
-    private Limb leftLeg;
-    private Limb rightLeg;
+    private float velocity;
+    private Limb[] limbs;
 
     private Limb LoadAndParentLimb(string name, Transform socket)
     {
@@ -24,10 +23,40 @@ public class Dancer : MonoBehaviour
 
     private void Awake()
     {
-        leftArm = LoadAndParentLimb("Limbs/LeftArm", LeftArmSocket);
-        rightArm = LoadAndParentLimb("Limbs/RightArm", RightArmSocket);
-        leftLeg = LoadAndParentLimb("Limbs/LeftLeg", LeftLegSocket);
-        rightLeg = LoadAndParentLimb("Limbs/RightLeg", RightLegSocket);
+        limbs = new Limb[4];
+        limbs[0] = LoadAndParentLimb("Limbs/LeftArm", LeftArmSocket);
+        limbs[1] = LoadAndParentLimb("Limbs/RightArm", RightArmSocket);
+        limbs[2] = LoadAndParentLimb("Limbs/LeftLeg", LeftLegSocket);
+        limbs[3] = LoadAndParentLimb("Limbs/RightLeg", RightLegSocket);
+    }
+
+    private void Update()
+    {
+        float minY = float.MaxValue;
+
+        for(int i=0; i<limbs.Length; i++)
+        {
+            minY = Mathf.Min(limbs[i].CollisionPoint.position.y, minY);
+        }
+
+        float dt = Time.deltaTime;
+        Vector3 position = transform.localPosition;
+
+        velocity += Gravity * dt;
+        position += new Vector3(0, velocity * dt, 0);
+
+        if(position.y < 0f)
+        {
+            position.y = 0f;
+            velocity = 0f;
+        }
+
+        transform.localPosition = position;
+    }
+
+    public PoseModel GetPose()
+    {
+        return null;
     }
 }
 

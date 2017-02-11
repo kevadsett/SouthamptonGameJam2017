@@ -8,10 +8,16 @@ public class Limb : MonoBehaviour
     public LimbPose[] Poses;
     public SpriteRenderer UpperBone;
     public SpriteRenderer LowerBone;
+    public Transform CollisionPoint;
 
     private int previousPoseIndex;
     private int currentPoseIndex;
     private float transitionTime;
+
+    public int CurrentPoseIndex
+    {
+        get { return currentPoseIndex; }
+    }
 
     private void Awake()
     {
