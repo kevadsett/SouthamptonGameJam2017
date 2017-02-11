@@ -5,8 +5,8 @@ public class Limb : MonoBehaviour
     public LimbAnimation LimbAnimation;
 
     [Space]
-    public SpriteRenderer UpperBone;
-    public SpriteRenderer LowerBone;
+    public SpriteRenderer UpperLimb;
+    public SpriteRenderer LowerLimb;
     public Transform CollisionPoint;
 
     private LimbPose[] _poses;
@@ -20,13 +20,16 @@ public class Limb : MonoBehaviour
         get { return _currentPoseIndex; }
     }
 
-    public void Setup(LimbPose[] poses, KeyCode keycode)
+    public void Setup(LimbPose[] poses, Sprite upperLimb, Sprite lowerLimb, KeyCode keycode)
     {
         _poses = poses;
         _keycode = keycode;
         _transitionTime = LimbAnimation.Duration;
         _previousPoseIndex = Random.Range(0, poses.Length);
         _currentPoseIndex = (_previousPoseIndex + 1) % poses.Length;
+
+        UpperLimb.sprite = upperLimb;
+        LowerLimb.sprite = lowerLimb;
     }
 
     private void RotateBone(Transform bone, float previousRotation, float currentRotation, float t)
@@ -51,7 +54,7 @@ public class Limb : MonoBehaviour
         LimbPose previousPose = _poses[_previousPoseIndex];
         LimbPose currentPose = _poses[_currentPoseIndex];
 
-        RotateBone(UpperBone.transform, previousPose.UpperRotation, currentPose.UpperRotation, currentLerp);
-        RotateBone(LowerBone.transform, previousPose.LowerRotation, currentPose.LowerRotation, currentLerp);
+        RotateBone(UpperLimb.transform, previousPose.UpperRotation, currentPose.UpperRotation, currentLerp);
+        RotateBone(LowerLimb.transform, previousPose.LowerRotation, currentPose.LowerRotation, currentLerp);
     }
 }

@@ -22,7 +22,7 @@ public class MainGameState : GameState
 
 	private PoseRibbon _poseRibbon;
 
-    private Poser CreatePoser(string name, float horizontalPosition, GameObject prefab, PoseLibrary poseLibrary, params KeyCode[] controls)
+    private Poser CreatePoser(string name, float horizontalPosition, GameObject prefab, PoserTextures poserTextures, PoseLibrary poseLibrary, params KeyCode[] controls)
     {
         GameObject instance = GameObject.Instantiate(prefab);
         instance.name = name;
@@ -30,7 +30,7 @@ public class MainGameState : GameState
 
         Poser poser = instance.GetComponent<Poser>();
 
-        poser.Setup(poseLibrary, controls);
+        poser.Setup(poserTextures, poseLibrary, controls);
 
         return poser;
     }
@@ -49,10 +49,11 @@ public class MainGameState : GameState
         GameObject.Instantiate(backgroundPrefab);
 
         // Load the players.
+        PoserTextures poserTextures = Resources.Load<PoserTextures>("TestPoserTextures");
         GameObject poserPrefab = Resources.Load<GameObject>("Poser");
 
-        _player1 = CreatePoser("Player1", -4f, poserPrefab, poseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
-        _player2 = CreatePoser("Player2", 4f, poserPrefab, poseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
+        _player1 = CreatePoser("Player1", -4f, poserPrefab, poserTextures, poseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
+        _player2 = CreatePoser("Player2", 4f, poserPrefab, poserTextures, poseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
 
 		GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbonContainer");
 		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseDiagram");
