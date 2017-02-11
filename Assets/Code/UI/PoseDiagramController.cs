@@ -17,8 +17,8 @@ public class PoseDiagramController : MonoBehaviour
 
         Poser stickman = Poser.CreatePoser(false, limbAnimation, stickmanParts, poseLibrary, keycodes);
         stickman.transform.parent = _rect;
-        stickman.transform.localPosition = new Vector3(0, -10, 0);
-        stickman.transform.localScale = 50f * Vector3.one;
+        stickman.transform.localPosition = new Vector3(0, -20, 0);
+        stickman.transform.localScale = 120f * Vector3.one;
         stickman.name = "Stickman";
         stickman.SetPose(pose.Pose);
 	
