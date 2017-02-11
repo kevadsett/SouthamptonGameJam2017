@@ -1,6 +1,7 @@
 using System;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class MainGameState : GameState
 {
@@ -10,6 +11,12 @@ public class MainGameState : GameState
 
 	private PoseController _player1;
 	private PoseController _player2;
+
+	private int _player1Score;
+	private int _player2Score;
+
+	private int _player1Lives = 3;
+	private int _player2Lives = 3;
 
 	public override void EnterState()
 	{
@@ -40,6 +47,7 @@ public class MainGameState : GameState
 			pose.Update ();
 			if (pose.HasExpired)
 			{
+				JudgePoses (pose);
 				_posesToRemove.Add (pose);
 			}
 		}
@@ -49,11 +57,36 @@ public class MainGameState : GameState
 		}
 		_player1.Update ();
 		_player2.Update ();
+
 	}
 
 	public override void ExitState()
 	{
 		_poseGenerator = null;
+	}
+
+	private void JudgePoses(PoseModel pose)
+	{
+		if (_player1.IsPoseCorrect (pose))
+		{
+			Debug.Log ("Player 1 got it right");
+			_player1Score++;
+		}
+		else
+		{
+			Debug.Log ("Player 1 got it wrong");
+			_player1Lives--;
+		}
+		if (_player2.IsPoseCorrect (pose))
+		{
+			Debug.Log ("Player 2 got it right");
+			_player2Score++;
+		}
+		else
+		{
+			Debug.Log ("Player 2 got it wrong");
+			_player2Lives--;
+		}
 	}
 }
 
