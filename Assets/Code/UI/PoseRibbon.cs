@@ -16,6 +16,7 @@ public class PoseRibbon
 	public void AddNewPoseDiagram(TargetPose pose)
 	{
 		GameObject poseDiagram = GameObject.Instantiate (_poseDiagramPrefab) as GameObject;
+		poseDiagram.GetComponent<PoseDiagramController> ().SetPose (pose);
 		poseDiagram.transform.SetParent (_instance.transform, false);
 	}
 }

@@ -75,15 +75,18 @@ public class MainGameState : GameState
 			pose.Update ();
 			if (pose.HasExpired)
 			{
-				JudgePoses (pose);
-				_posesToRemove.Add (pose);
+				if (pose.HasBeenJudged == false)
+				{
+					JudgePoses (pose);
+				}
+//				_posesToRemove.Add (pose);
 			}
 		}
 
-		foreach (TargetPose pose in _posesToRemove)
-		{
-			_poseTargets.Remove (pose);
-		}
+//		foreach (TargetPose pose in _posesToRemove)
+//		{
+//			_poseTargets.Remove (pose);
+//		}
 
 		if (_player1Lives == 0 && _player2Lives > 0)
 		{
@@ -106,6 +109,7 @@ public class MainGameState : GameState
 
 	private void JudgePoses(TargetPose pose)
 	{
+		pose.HasBeenJudged = true;
         if (_player1.GetCurrentPose().Equals(pose))
 		{
 			Debug.Log ("Player 1 got it right");
