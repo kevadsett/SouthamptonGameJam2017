@@ -4,29 +4,31 @@ using System.Collections.Generic;
 
 public class PoseGenerator
 {
-	private float _secondsBetweenPoses;
+	private float _timeToMatchPose;
+	private float _timeBetweenGenerations;
 	private float _timeSinceLastPoseGenerated;
 
-	public PoseGenerator (float secondsBetweenPoses)
+	public PoseGenerator (float timeToMatchPose)
 	{
-		_secondsBetweenPoses = secondsBetweenPoses;
+		_timeToMatchPose = timeToMatchPose;
+		_timeBetweenGenerations = _timeSinceLastPoseGenerated = _timeToMatchPose / 3;
 	}
 
 	public void Update(List<PoseModel> poseList)
 	{
 		
 		_timeSinceLastPoseGenerated += Time.deltaTime;
-		if (_timeSinceLastPoseGenerated >= _secondsBetweenPoses)
+		if (_timeSinceLastPoseGenerated >= _timeBetweenGenerations)
 		{
 			poseList.Add(GeneratePose ());
-			_timeSinceLastPoseGenerated -= _secondsBetweenPoses;
+			_timeSinceLastPoseGenerated -= _timeBetweenGenerations;
 			DebugPrint (poseList);
 		}
 	}
 
 	public PoseModel GeneratePose()
 	{
-		PoseModel pose = new PoseModel ();
+		PoseModel pose = new PoseModel (_timeToMatchPose);
 		pose.Randomise ();
 		return pose;
 	}

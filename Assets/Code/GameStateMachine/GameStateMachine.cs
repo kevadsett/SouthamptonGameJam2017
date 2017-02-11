@@ -4,8 +4,11 @@ using System.Collections.Generic;
 
 public enum eGameState
 {
-    Load,
-    Game
+	Load,
+	Game,
+	Player1Victory,
+	Player2Victory,
+	Draw
 }
 
 public class GameStateMachine

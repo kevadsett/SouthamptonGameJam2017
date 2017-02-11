@@ -7,9 +7,9 @@ public class PoseController {
 
 	private PoseModel _poseModel;
 
-	public PoseController(KeyCode leftArm, KeyCode rightArm, KeyCode leftLeg, KeyCode rightLeg)
+	public PoseController(float timeToMatchPose, KeyCode leftArm, KeyCode rightArm, KeyCode leftLeg, KeyCode rightLeg)
 	{
-		_poseModel = new PoseModel();
+		_poseModel = new PoseModel(timeToMatchPose);
 		_limbKeys = new Dictionary<eLimbType, KeyCode> ()
 		{
 			{ eLimbType.LeftArm, leftArm },

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MainGameState : GameState
 {
+	private float _timeToMatchPose = 20.0f;
 	private PoseGenerator _poseGenerator;
 	private List<PoseModel> _poseTargets;
 	private List<PoseModel> _posesToRemove;
@@ -23,14 +24,14 @@ public class MainGameState : GameState
 		SceneManager.LoadScene ("Game", LoadSceneMode.Single);
 		_poseTargets = new List<PoseModel> ();
 		_posesToRemove = new List<PoseModel> ();
-		_poseGenerator = new PoseGenerator (2);
-		_player1 = new PoseController (
+		_poseGenerator = new PoseGenerator (_timeToMatchPose);
+		_player1 = new PoseController (_timeToMatchPose,
 			UnityEngine.KeyCode.Q,
 			UnityEngine.KeyCode.W,
 			UnityEngine.KeyCode.A,
 			UnityEngine.KeyCode.S
 		);
-		_player2 = new PoseController (
+		_player2 = new PoseController (_timeToMatchPose,
 			UnityEngine.KeyCode.I,
 			UnityEngine.KeyCode.O,
 			UnityEngine.KeyCode.K,
@@ -58,6 +59,18 @@ public class MainGameState : GameState
 		_player1.Update ();
 		_player2.Update ();
 
+		if (_player1Lives == 0 && _player2Lives > 0)
+		{
+			StateMachine.ChangeState (eGameState.Player1Victory);
+		}
+		else if (_player2Lives == 0 && _player1Lives > 0)
+		{
+			StateMachine.ChangeState (eGameState.Player2Victory);
+		}
+		else if (_player1Lives == 0 && _player2Lives == 0)
+		{
+			StateMachine.ChangeState (eGameState.Draw);
+		}
 	}
 
 	public override void ExitState()

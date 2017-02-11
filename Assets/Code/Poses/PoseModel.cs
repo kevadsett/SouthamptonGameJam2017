@@ -7,7 +7,7 @@ public class PoseModel
 
 
 	public bool HasExpired;
-	private float _expiryTime = 6.0f;
+	private float _expiryTime;
 	private float _age = 0.0f;
 	private Dictionary<eLimbType, LimbModel> _definition;
 	public Dictionary<eLimbType, LimbModel> PoseDefinition
@@ -20,8 +20,9 @@ public class PoseModel
 
 	private Dictionary<int, int> _limbToPoseCount;
 
-	public PoseModel ()
+	public PoseModel (float expiryTime)
 	{
+		_expiryTime = expiryTime;
 		_definition = new Dictionary<eLimbType, LimbModel>
 		{
 			{ eLimbType.LeftArm, new LimbModel (4) },
