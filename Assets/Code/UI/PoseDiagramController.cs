@@ -12,7 +12,7 @@ public class PoseDiagramController : MonoBehaviour
 
 	void Update()
 	{
-		if (_pose != null)
+		if (_pose == null)
 		{
 			return;
 		}
