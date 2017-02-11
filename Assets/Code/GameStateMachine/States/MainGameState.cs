@@ -58,6 +58,11 @@ public class MainGameState : GameState
 		GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbonContainer");
 		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseDiagram");
 		_poseRibbon = new PoseRibbon(poseRibbonPrefab, poseDiagramPrefab, GameObject.Find("UICanvas").transform);
+
+		ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
+		ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
+		ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);
+		ViewBindings.Instance.BindValue ("Player2Lives", "" + _player2Lives);
 	}
 
 	public override void Update()
@@ -118,22 +123,26 @@ public class MainGameState : GameState
 		{
 			Debug.Log ("Player 1 got it right");
 			_player1Score++;
+			ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
 		}
 		else
 		{
 			Debug.Log ("Player 1 got it wrong");
 			_player1Lives--;
+			ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
 			someoneWasWrong = true;
 		}
 		if (_player2.GetCurrentPose().Equals(pose))
 		{
 			Debug.Log ("Player 2 got it right");
 			_player2Score++;
+			ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);
 		}
 		else
 		{
 			Debug.Log ("Player 2 got it wrong");
 			_player2Lives--;
+			ViewBindings.Instance.BindValue ("Player2Lives", "" + _player2Lives);
 			someoneWasWrong = true;
 		}
 		if (someoneWasWrong)
