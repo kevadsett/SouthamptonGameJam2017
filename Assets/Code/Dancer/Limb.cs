@@ -2,8 +2,6 @@
 
 public class Limb : MonoBehaviour
 {
-    [Range(0f, 1f)]
-    public float TransitionDuration;
     public LimbAnimation LimbAnimation;
 
     [Space]
@@ -17,7 +15,7 @@ public class Limb : MonoBehaviour
 
     private void Awake()
     {
-        transitionTime = TransitionDuration;
+        transitionTime = LimbAnimation.Duration;
         previousPoseIndex = Random.Range(0, Poses.Length);
         currentPoseIndex = (previousPoseIndex + 1) % Poses.Length;
     }
@@ -30,7 +28,7 @@ public class Limb : MonoBehaviour
 
     private void Update()
     {
-        transitionTime = Mathf.MoveTowards(transitionTime, TransitionDuration, Time.deltaTime);
+        transitionTime = Mathf.MoveTowards(transitionTime, LimbAnimation.Duration, Time.deltaTime);
 
         if(Input.GetKeyDown(KeyCode.Q))
         {
@@ -39,7 +37,7 @@ public class Limb : MonoBehaviour
             currentPoseIndex = (previousPoseIndex + 1) % Poses.Length;
         }
 
-        float currentLerp = LimbAnimation.Curve.Evaluate(transitionTime / TransitionDuration);
+        float currentLerp = LimbAnimation.Curve.Evaluate(transitionTime / LimbAnimation.Duration);
 
         LimbPose previousPose = Poses[previousPoseIndex];
         LimbPose currentPose = Poses[currentPoseIndex];
