@@ -15,4 +15,9 @@ public class LimbModel
 	{
 		CurrentPosition = Random.Range (0, PositionCount);
 	}
+
+	public void Cycle()
+	{
+		CurrentPosition = (CurrentPosition + 1) % PositionCount;
+	}
 }

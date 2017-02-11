@@ -7,8 +7,8 @@ public class PoseModel
 	public bool HasExpired;
 	private float _expiryTime = 6.0f;
 	private float _age = 0.0f;
-	private Dictionary<string, LimbModel> _definition;
-	public Dictionary<string, LimbModel> PoseDefinition
+	private Dictionary<eLimbType, LimbModel> _definition;
+	public Dictionary<eLimbType, LimbModel> PoseDefinition
 	{
 		get
 		{
@@ -20,12 +20,12 @@ public class PoseModel
 
 	public PoseModel ()
 	{
-		_definition = new Dictionary<string, LimbModel>
+		_definition = new Dictionary<eLimbType, LimbModel>
 		{
-			{ "LeftArm", new LimbModel (4) },
-			{ "RightArm", new LimbModel (4) },
-			{ "LeftLeg", new LimbModel (2) },
-			{ "RightLeg", new LimbModel (2) }
+			{ eLimbType.LeftArm, new LimbModel (4) },
+			{ eLimbType.RightArm, new LimbModel (4) },
+			{ eLimbType.LeftLeg, new LimbModel (2) },
+			{ eLimbType.RightLeg, new LimbModel (2) }
 		};
 	}
 
@@ -56,7 +56,7 @@ public class PoseModel
 			return false;
 		}
 
-		foreach (KeyValuePair<string, LimbModel> kvp in _definition)
+		foreach (KeyValuePair<eLimbType, LimbModel> kvp in _definition)
 		{
 			LimbModel myLimb = kvp.Value;
 			LimbModel otherLimb;
