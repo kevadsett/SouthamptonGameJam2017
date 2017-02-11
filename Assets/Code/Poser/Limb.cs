@@ -97,4 +97,11 @@ public class Limb : MonoBehaviour
         RotateBone(_upperLimb.transform, previousPose.UpperRotation, currentPose.UpperRotation, currentLerp);
         RotateBone(_lowerLimb.transform, previousPose.LowerRotation, currentPose.LowerRotation, currentLerp);
     }
+
+    public void SetPose(int poseIndex)
+    {
+        _previousPoseIndex = poseIndex;
+        _currentPoseIndex = poseIndex;
+        _transitionTime = _limbAnimation.Duration;
+    }
 }

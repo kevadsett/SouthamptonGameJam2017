@@ -13,6 +13,7 @@ public class MainGameState : GameState
 
 	private Poser _player1;
 	private Poser _player2;
+    private Poser _stickman;
 
 	private int _player1Score;
 	private int _player2Score;
@@ -46,12 +47,17 @@ public class MainGameState : GameState
 
         // Load the players.
         LimbAnimation limbAnimation = Resources.Load<LimbAnimation>("LimbAnimation");
-        PoserParts poserParts = Resources.Load<PoserParts>("MrBaguetteParts");
+        PoserParts playerParts = Resources.Load<PoserParts>("Parts/MrBaguetteParts");
         GameObject poserPrefab = Resources.Load<GameObject>("Poser");
 
-        _player1 = CreatePoser("Player1", -10f, limbAnimation, poserParts, poseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
-        _player2 = CreatePoser("Player2", 10f, limbAnimation, poserParts, poseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
+        _player1 = CreatePoser("Player1", -10f, limbAnimation, playerParts, poseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
+        _player2 = CreatePoser("Player2", 10f, limbAnimation, playerParts, poseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
 
+        // Create the stickman.
+        PoserParts stickmanParts = Resources.Load<PoserParts>("Parts/StickmanParts");
+        _stickman = CreatePoser("Stickman", 0f, limbAnimation, stickmanParts, poseLibrary, KeyCode.None, KeyCode.None, KeyCode.None, KeyCode.None);
+
+        // Load the ribbon.
 		GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbonContainer");
 		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseDiagram");
 		_poseRibbon = new PoseRibbon(poseRibbonPrefab, poseDiagramPrefab, GameObject.Find("UICanvas").transform);
@@ -69,7 +75,7 @@ public class MainGameState : GameState
 		_posesToRemove.Clear ();
 
 		foreach (TargetPose pose in _poseTargets)
-		{
+        {
 			pose.Update ();
 			if (pose.HasExpired)
 			{
@@ -79,6 +85,8 @@ public class MainGameState : GameState
 				}
 //				_posesToRemove.Add (pose);
 			}
+
+            _stickman.SetPose(pose.Pose);
 		}
 
 //		foreach (TargetPose pose in _posesToRemove)

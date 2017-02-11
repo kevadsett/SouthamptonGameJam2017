@@ -117,6 +117,14 @@ public class Poser : MonoBehaviour
         }
     }
 
+    public void SetPose(Pose pose)
+    {
+        for(int i=0; i<pose.LimbPoses.Length; i++)
+        {
+            _limbs[i].SetPose(pose.LimbPoses[i]);
+        }
+    }
+
     public Pose GetCurrentPose()
     {
         return new Pose

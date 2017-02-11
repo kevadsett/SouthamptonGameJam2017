@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd64d4380a14456989d0129b23aca1e, type: 3}
+  m_Name: StickmanParts
+  m_EditorClassIdentifier: 
+  Torso: {fileID: 114000013213825958, guid: 9fc0408e419164269b1ac35f3905e418, type: 2}
+  Head: {fileID: 1000013966332012, guid: 5b009a7eb1ae740a8954c7de47c1c0a2, type: 2}
+  UpperArm: {fileID: 114000013158261664, guid: 46e9b6ed4b67e421aaa388d34a4778c9, type: 2}
+  LowerArm: {fileID: 114000011076671246, guid: 68fc54501bbb847cd9d049d07bdb7b21, type: 2}
+  UpperLeg: {fileID: 114000011019323578, guid: e975d7bf3c0b748cc876a1d915e6dae5, type: 2}
+  LowerLeg: {fileID: 114000011840667476, guid: 7fd7c2e5a6f2c4034948939b10931d6c, type: 2}
