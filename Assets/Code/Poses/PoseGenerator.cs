@@ -1,23 +1,26 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PoseGenerator
 {
 	private float _secondsBetweenPoses;
 	private float _timeSinceLastPoseGenerated;
+
 	public PoseGenerator (float secondsBetweenPoses)
 	{
 		_secondsBetweenPoses = secondsBetweenPoses;
-		GeneratePose ();
 	}
 
-	public void Update()
+	public void Update(List<PoseModel> poseList)
 	{
+		
 		_timeSinceLastPoseGenerated += Time.deltaTime;
 		if (_timeSinceLastPoseGenerated >= _secondsBetweenPoses)
 		{
-			GeneratePose ();
+			poseList.Add(GeneratePose ());
 			_timeSinceLastPoseGenerated -= _secondsBetweenPoses;
+			DebugPrint (poseList);
 		}
 	}
 
@@ -25,8 +28,18 @@ public class PoseGenerator
 	{
 		PoseModel pose = new PoseModel ();
 		pose.Randomise ();
-		Debug.Log ("Generated " + pose);
 		return pose;
+	}
+
+	private void DebugPrint(List<PoseModel> poseList)
+	{
+		string result = "[ - ";
+		foreach (PoseModel pose in poseList)
+		{
+			result += pose + " - ";
+		}
+		result += "]";
+		Debug.Log (result);
 	}
 }
 

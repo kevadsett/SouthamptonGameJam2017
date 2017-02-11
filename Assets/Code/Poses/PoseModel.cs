@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class PoseModel
 {
+	public bool HasExpired;
+	private float _expiryTime = 6.0f;
+	private float _age = 0.0f;
 	private Dictionary<string, LimbModel> _definition;
 	public Dictionary<string, LimbModel> PoseDefinition
 	{
@@ -24,6 +27,18 @@ public class PoseModel
 			{ "LeftLeg", new LimbModel (2) },
 			{ "RightLeg", new LimbModel (2) }
 		};
+	}
+
+	public void Update()
+	{
+		if (HasExpired == false)
+		{
+			_age += Time.deltaTime;
+			if (_age > _expiryTime)
+			{
+				HasExpired = true;
+			}
+		}
 	}
 
 	public void Randomise()
