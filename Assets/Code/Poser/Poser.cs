@@ -99,7 +99,7 @@ public class Poser : MonoBehaviour
         _limbs = limbs;
     }
 
-    private void Update()
+    public void UpdatePose()
     {
         if(_doUpdate)
         {
@@ -128,6 +128,11 @@ public class Poser : MonoBehaviour
         {
             _limbs[i].SetPose(pose.LimbPoses[i]);
         }
+
+		for (int i = 0; i < _limbs.Length; i++)
+		{
+			_limbs [i].UpdateLimb (dt);
+		}
     }
 
     public Pose GetCurrentPose()
