@@ -28,6 +28,8 @@ public class MainGameState : GameState
     private PoserParts _stickmanParts;
 	private PoseRibbon _poseRibbon;
 
+	private GameObject _backgroundCanvas;
+
     private Poser CreatePlayer(string name, float horizontalPosition, LimbAnimation limbAnimation, PoserParts poserParts, PoseLibrary poseLibrary, params KeyCode[] controls)
     {
         Poser poser = Poser.CreatePoser(true, limbAnimation, poserParts, poseLibrary, controls);
@@ -45,10 +47,6 @@ public class MainGameState : GameState
 		_poseTargets = new List<TargetPose> ();
 		_posesToRemove = new List<TargetPose> ();
 		_poseGenerator = new PoseGenerator (_poseLibrary, _timeToMatchPose);
-
-        // Load the background.
-        GameObject backgroundPrefab = Resources.Load<GameObject>("Background");
-        GameObject.Instantiate(backgroundPrefab);
 
 		// Load the audio.
 		GameObject audioPrefab = Resources.Load<GameObject>("Audio");
@@ -70,6 +68,7 @@ public class MainGameState : GameState
 		GameObject scoreLivesPrefab = Resources.Load<GameObject> ("UI/Score_Lives");
 
         // Set up the UI.
+		GameObject backgroundCanvasPrefab = Resources.Load<GameObject> ("UI/BackgroundCanvas");
 		GameObject canvasObject = GameObject.Find ("UICanvas") as GameObject;
 		RectTransform canvasTransform = canvasObject.GetComponent<RectTransform> ();
 
@@ -79,6 +78,10 @@ public class MainGameState : GameState
         _poseRibbon = GameObject.Instantiate(poseRibbonPrefab).GetComponent<PoseRibbon>();
         _poseRibbon.transform.SetParent(canvasTransform, false);
         _poseRibbon.Setup(poseDiagramPrefab);
+
+		_backgroundCanvas = GameObject.Instantiate (backgroundCanvasPrefab);
+		GameObject backgroundCameraObject = GameObject.Find ("BackgroundCamera");
+		_backgroundCanvas.GetComponent<Canvas> ().worldCamera =  backgroundCameraObject.GetComponent<Camera>();
 
 		ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
 		ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
@@ -137,6 +140,7 @@ public class MainGameState : GameState
 	public override void ExitState()
 	{
 		_poseGenerator = null;
+		GameObject.Destroy (_backgroundCanvas);
 	}
 
 	private void JudgePoses(TargetPose pose)
