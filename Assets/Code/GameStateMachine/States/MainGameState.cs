@@ -35,12 +35,18 @@ public class MainGameState : GameState
 
 	public override void EnterState()
     {
+        // Set up the pose system.
         PoseLibrary poseLibrary = Resources.Load<PoseLibrary>("PoseLibrary");
 
 		_poseTargets = new List<TargetPose> ();
 		_posesToRemove = new List<TargetPose> ();
 		_poseGenerator = new PoseGenerator (poseLibrary, _timeToMatchPose);
 
+        // Load the background.
+        GameObject backgroundPrefab = Resources.Load<GameObject>("Background");
+        GameObject.Instantiate(backgroundPrefab);
+
+        // Load the players.
         GameObject poserPrefab = Resources.Load<GameObject>("Poser");
 
         _player1 = CreatePoser("Player1", -4f, poserPrefab, poseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
