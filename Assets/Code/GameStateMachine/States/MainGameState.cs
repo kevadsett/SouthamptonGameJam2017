@@ -58,6 +58,18 @@ public class MainGameState : GameState
 		_player1.Update ();
 		_player2.Update ();
 
+		if (_player1Lives == 0 && _player2Lives > 0)
+		{
+			StateMachine.ChangeState (eGameState.Player1Victory);
+		}
+		else if (_player2Lives == 0 && _player1Lives > 0)
+		{
+			StateMachine.ChangeState (eGameState.Player2Victory);
+		}
+		else if (_player1Lives == 0 && _player2Lives == 0)
+		{
+			StateMachine.ChangeState (eGameState.Draw);
+		}
 	}
 
 	public override void ExitState()
