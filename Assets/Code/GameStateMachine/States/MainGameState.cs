@@ -57,7 +57,6 @@ public class MainGameState : GameState
         // Load the players.
         _limbAnimation = Resources.Load<LimbAnimation>("LimbAnimation");
         PoserParts playerParts = Resources.Load<PoserParts>("Parts/MrBaguetteParts");
-        GameObject poserPrefab = Resources.Load<GameObject>("Poser");
 
         _player1 = CreatePlayer("Player1", -10f, _limbAnimation, playerParts, _poseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
         _player2 = CreatePlayer("Player2", 10f, _limbAnimation, playerParts, _poseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
@@ -124,8 +123,11 @@ public class MainGameState : GameState
 		{
 			StateMachine.ChangeState (eGameState.Draw);
 		}
-		_player1.UpdatePose ();
-		_player2.UpdatePose ();
+
+        float dt = Time.deltaTime;
+
+		_player1.UpdatePose(dt);
+		_player2.UpdatePose(dt);
 	}
 
 	public override void ExitState()
