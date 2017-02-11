@@ -3,49 +3,43 @@ using UnityEngine;
 
 public class PoseDiagramController : MonoBehaviour
 {
-	private TargetPose _pose;
-	private bool _maximised;
-	private RectTransform _rect;
-    private Poser _stickman;
+    private TargetPose _pose;
+    private RectTransform _rect;
+    private RectTransform _parentRect;
 
-	public void Setup(TargetPose pose, LimbAnimation limbAnimation, PoserParts stickmanParts, PoseLibrary poseLibrary)
+	public void Setup(RectTransform parentRect, TargetPose pose, LimbAnimation limbAnimation, PoserParts stickmanParts, PoseLibrary poseLibrary)
 	{
 		_pose = pose;
 		_rect = GetComponent<RectTransform> ();
-
-		PoseDiagramPivotBinder pivotBinder = GetComponent<PoseDiagramPivotBinder> ();
-		pivotBinder.Key = pose.ProgressKey;
+        _parentRect = parentRect;
 
         KeyCode[] keycodes = new KeyCode[] { KeyCode.None, KeyCode.None, KeyCode.None, KeyCode.None };
 
         Poser stickman = Poser.CreatePoser(false, limbAnimation, stickmanParts, poseLibrary, keycodes);
-        stickman.transform.localScale = 40f * Vector3.one;
         stickman.transform.parent = _rect;
+        stickman.transform.localPosition = new Vector3(0, -10, 0);
+        stickman.transform.localScale = 40f * Vector3.one;
         stickman.name = "Stickman";
         stickman.SetPose(pose.Pose);
-	}
+	
+        SetPosition(0);
+    }
 
-	void Update()
-	{
-		if (_pose == null)
-		{
-			return;
-		}
+    private void SetPosition(float progress)
+    {
+        float width = _parentRect.rect.width;
 
-		if (_pose.HasBeenJudged)
-		{
-			float newScale;
-			if (_maximised == false)
-			{
-				newScale = 1.5f;
-				_maximised = true;
-			}
-			else
-			{
-				newScale = _rect.localScale.x - 0.3f * Time.deltaTime;
-			}
-			newScale = Mathf.Max (newScale, 0);
-			_rect.localScale = new Vector3 (newScale, newScale, newScale);
-		}
-	}
+        Debug.LogFormat("WIDTH = {0}", width);
+
+        _rect.localPosition = new Vector3(0.5f * (width + _rect.rect.width) * (1f - progress), 0, 0);   
+    }
+
+    private void Update()
+    {
+        float progress;
+        if(ViewBindings.Instance.TryGetBoundValue(_pose.ProgressKey, out progress))
+        {
+            SetPosition(progress);
+        }
+    }
 }

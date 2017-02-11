@@ -65,16 +65,20 @@ public class MainGameState : GameState
         _stickmanParts = Resources.Load<PoserParts>("Parts/StickmanParts");
 
         // Load the ribbon.
-		GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbonContainer");
-		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseDiagram");
+		GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbon");
+		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseRibbonDiagram");
 		GameObject scoreLivesPrefab = Resources.Load<GameObject> ("UI/Score_Lives");
+
+        // Set up the UI.
 		GameObject canvasObject = GameObject.Find ("UICanvas") as GameObject;
 		RectTransform canvasTransform = canvasObject.GetComponent<RectTransform> ();
 
 		GameObject scoreLivesUI = GameObject.Instantiate (scoreLivesPrefab);
 		scoreLivesUI.transform.SetParent (canvasTransform, false);
 
-		_poseRibbon = new PoseRibbon(poseRibbonPrefab, poseDiagramPrefab, canvasTransform);
+        _poseRibbon = GameObject.Instantiate(poseRibbonPrefab).GetComponent<PoseRibbon>();
+        _poseRibbon.transform.SetParent(canvasTransform, false);
+        _poseRibbon.Setup(poseDiagramPrefab);
 
 		ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
 		ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);

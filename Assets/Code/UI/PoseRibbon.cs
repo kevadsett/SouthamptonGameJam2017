@@ -1,23 +1,22 @@
 ﻿using System;
 using UnityEngine;
 
-public class PoseRibbon
+public class PoseRibbon : MonoBehaviour
 {
-	private GameObject _instance;
+    public RectTransform BeltTransform;
+
 	private GameObject _poseDiagramPrefab;
 
-	public PoseRibbon (GameObject prefab, GameObject poseDiagramPrefab, Transform parentCanvas)
+    public void Setup(GameObject poseDiagramPrefab)
 	{
-		_instance = GameObject.Instantiate (prefab) as GameObject;
-		_instance.transform.SetParent (parentCanvas, false);
 		_poseDiagramPrefab = poseDiagramPrefab;
 	}
 
 	public void AddNewPoseDiagram(TargetPose pose, LimbAnimation limbAnimation, PoserParts stickmanParts, PoseLibrary poseLibrary)
 	{
-		GameObject poseDiagram = GameObject.Instantiate (_poseDiagramPrefab) as GameObject;
-        poseDiagram.GetComponent<PoseDiagramController>().Setup(pose, limbAnimation, stickmanParts, poseLibrary);
-		poseDiagram.transform.SetParent (_instance.transform, false);
+		GameObject poseDiagram = GameObject.Instantiate(_poseDiagramPrefab);
+        poseDiagram.GetComponent<PoseDiagramController>().Setup(GetComponent<RectTransform>(), pose, limbAnimation, stickmanParts, poseLibrary);
+		poseDiagram.transform.SetParent(BeltTransform, false);
 	}
 }
 
