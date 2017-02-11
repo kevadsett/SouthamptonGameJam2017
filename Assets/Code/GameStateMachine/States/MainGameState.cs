@@ -68,7 +68,14 @@ public class MainGameState : GameState
         // Load the ribbon.
 		GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbonContainer");
 		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseDiagram");
-		_poseRibbon = new PoseRibbon(poseRibbonPrefab, poseDiagramPrefab, GameObject.Find("UICanvas").transform);
+		GameObject scoreLivesPrefab = Resources.Load<GameObject> ("UI/Score_Lives");
+		GameObject canvasObject = GameObject.Find ("UICanvas") as GameObject;
+		RectTransform canvasTransform = canvasObject.GetComponent<RectTransform> ();
+
+		GameObject scoreLivesUI = GameObject.Instantiate (scoreLivesPrefab);
+		scoreLivesUI.transform.SetParent (canvasTransform, false);
+
+		_poseRibbon = new PoseRibbon(poseRibbonPrefab, poseDiagramPrefab, canvasTransform);
 
 		ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
 		ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);

@@ -30,6 +30,7 @@ public class InterimScoreState : GameState
 
 	public override void ExitState ()
 	{
+		_timeInState = 0.0f;
 		GameObject.Destroy (_screen);
 	}
 }
