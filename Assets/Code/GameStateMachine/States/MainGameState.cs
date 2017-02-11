@@ -98,6 +98,8 @@ public class MainGameState : GameState
 		{
 			StateMachine.ChangeState (eGameState.Draw);
 		}
+		_player1.UpdatePose ();
+		_player2.UpdatePose ();
 	}
 
 	public override void ExitState()
@@ -108,6 +110,7 @@ public class MainGameState : GameState
 	private void JudgePoses(TargetPose pose)
 	{
 		pose.HasBeenJudged = true;
+		bool shouldShowInterimScore = false;
         if (_player1.GetCurrentPose().Equals(pose))
 		{
 			Debug.Log ("Player 1 got it right");
@@ -117,6 +120,7 @@ public class MainGameState : GameState
 		{
 			Debug.Log ("Player 1 got it wrong");
 			_player1Lives--;
+			shouldShowInterimScore = true;
 		}
 		if (_player2.GetCurrentPose().Equals(pose))
 		{
@@ -127,6 +131,11 @@ public class MainGameState : GameState
 		{
 			Debug.Log ("Player 2 got it wrong");
 			_player2Lives--;
+			shouldShowInterimScore = true;
+		}
+		if (shouldShowInterimScore)
+		{
+			StateMachine.PushState (eGameState.InterimScore);
 		}
 	}
 }

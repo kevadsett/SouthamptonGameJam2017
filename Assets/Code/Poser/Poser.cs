@@ -97,7 +97,7 @@ public class Poser : MonoBehaviour
         _limbs = limbs;
     }
 
-    private void Update()
+    public void UpdatePose()
     {
         float dt = Time.deltaTime;
         _velocity += _gravity * dt;
@@ -115,6 +115,11 @@ public class Poser : MonoBehaviour
         {
             transform.localPosition -= new Vector3(0, minY, 0);
         }
+
+		for (int i = 0; i < _limbs.Length; i++)
+		{
+			_limbs [i].UpdateLimb (dt);
+		}
     }
 
     public Pose GetCurrentPose()

@@ -78,7 +78,7 @@ public class Limb : MonoBehaviour
         bone.localRotation = Quaternion.Euler(0, 0, rotation);
     }
 
-    private void Update()
+	public void UpdateLimb(float dt)
     {
         _transitionTime = Mathf.MoveTowards(_transitionTime, _limbAnimation.Duration, Time.deltaTime);
 
