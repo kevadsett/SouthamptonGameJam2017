@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faaf035eeee584985af530c316e11b0b, type: 3}
   m_Name: LimbAnimation
   m_EditorClassIdentifier: 
-  Duration: 0.43
+  Duration: 0.6
   Curve:
     serializedVersion: 2
     m_Curve:

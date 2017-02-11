@@ -23,4 +23,3 @@ MonoBehaviour:
   RightLegPoses:
   - {fileID: 11400000, guid: 6cc198bef9fe3457192dfc28931956dd, type: 2}
   - {fileID: 11400000, guid: 83b723c40ebfd4c7fb87f9036609ab16, type: 2}
-  - {fileID: 11400000, guid: 02563296dfa6d4956a77c9c14ac7f53d, type: 2}
