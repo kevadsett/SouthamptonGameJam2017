@@ -1,23 +1,23 @@
 ﻿using System;
 using UnityEngine.SceneManagement;
 
-public class MainGameState : IGameState
+public class MainGameState : GameState
 {
 	private PoseGenerator _poseGenerator;
-	public void EnterState()
+
+	public override void EnterState()
 	{
-		SceneManager.LoadScene ("Game", LoadSceneMode.Additive);
+		SceneManager.LoadScene ("Game", LoadSceneMode.Single);
 		_poseGenerator = new PoseGenerator (2);
 	}
 
-	public void Update()
+	public override void Update()
 	{
 		_poseGenerator.Update ();
 	}
 
-	public void ExitState()
+	public override void ExitState()
 	{
-		SceneManager.UnloadScene ("Game");
 		_poseGenerator = null;
 	}
 }

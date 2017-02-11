@@ -1,13 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-public class EntryPoint : MonoBehaviour {
+public class EntryPoint : MonoBehaviour
+{
+    private GameStateMachine _gameStateMachine;
 
-	void Start () {
-		GameStateMachine.ChangeState (eGameState.Load);
-	}
-	
-	void Update () {
-		GameStateMachine.Update ();
-	}
+    void Start()
+    {
+        Object.DontDestroyOnLoad(this);
+
+        var gameStates = new Dictionary<eGameState, GameState>
+        {
+            { eGameState.Load, new LoadGameState() },
+            { eGameState.Game, new MainGameState() }
+        };
+
+        _gameStateMachine = new GameStateMachine(gameStates, eGameState.Load);
+    }
+
+    void Update()
+    {
+        _gameStateMachine.Update();
+    }
 }

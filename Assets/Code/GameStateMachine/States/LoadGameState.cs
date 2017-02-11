@@ -1,18 +1,16 @@
-﻿using System;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadGameState : IGameState
+public class LoadGameState : GameState
 {
-	public void EnterState()
+	public override void EnterState()
 	{
-		SceneManager.LoadScene ("Load", LoadSceneMode.Additive);
+		SceneManager.LoadScene("Load", LoadSceneMode.Single);
 	}
 
-	public void Update() {}
-
-	public void ExitState()
-	{
-		SceneManager.UnloadScene ("Load");
-	}
+	public override void Update()
+    {
+        StateMachine.ChangeState(eGameState.Game);
+    }
 }
 

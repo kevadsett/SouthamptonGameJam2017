@@ -4,32 +4,39 @@ using System.Collections.Generic;
 
 public enum eGameState
 {
-	Load,
-	Game
+    Load,
+    Game
 }
 
-static class GameStateMachine {
-	private static Dictionary<eGameState, IGameState> _states = new Dictionary<eGameState, IGameState> ()
-	{
-		{ eGameState.Load, new LoadGameState() },
-		{ eGameState.Game, new MainGameState() }
-	};
-	private static IGameState _currentState;
-	
-	public static void Update () {
-		if (_currentState != null)
-		{
-			_currentState.Update ();
-		}
-	}
+public class GameStateMachine
+{
+    private GameState _currentState;
+    private Dictionary<eGameState, GameState> _states;
 
-	public static void ChangeState(eGameState newState)
-	{
-		if (_currentState != null)
-		{
-			_currentState.ExitState ();
-		}
-		_currentState = _states[newState];
-		_currentState.EnterState ();
-	}
+    public GameStateMachine(Dictionary<eGameState, GameState> states, eGameState defaultState)
+    {
+        _states = states;
+
+        foreach(var state in states.Values)
+        {
+            state.StateMachine = this;
+        }
+
+        ChangeState(defaultState);
+    }
+
+    public void Update()
+    {
+        _currentState.Update();
+    }
+
+    public void ChangeState(eGameState newState)
+    {
+        if(_currentState != null)
+        {
+            _currentState.ExitState();
+        }
+        _currentState = _states[newState];
+        _currentState.EnterState();
+    }
 }
