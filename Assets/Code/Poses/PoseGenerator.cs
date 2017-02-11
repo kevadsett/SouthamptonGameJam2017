@@ -16,15 +16,17 @@ public class PoseGenerator
 		_timeBetweenGenerations = _timeSinceLastPoseGenerated = _timeToMatchPose / 3;
 	}
 
-	public void Update(List<TargetPose> poseList)
+	public TargetPose AddPoseIfNeeded(List<TargetPose> poseList)
 	{
 		_timeSinceLastPoseGenerated += Time.deltaTime;
 		if (_timeSinceLastPoseGenerated >= _timeBetweenGenerations)
 		{
-			poseList.Add(GeneratePose ());
+			TargetPose newPose = GeneratePose ();
+			poseList.Add(newPose);
 			_timeSinceLastPoseGenerated -= _timeBetweenGenerations;
-			DebugPrint (poseList);
+			return newPose;
 		}
+		return null;
 	}
 
     public TargetPose GeneratePose()
