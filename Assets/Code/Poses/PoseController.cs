@@ -29,4 +29,9 @@ public class PoseController {
 			}
 		}
 	}
+
+	public bool IsPoseCorrect(PoseModel pose)
+	{
+		return _poseModel.IsEqualTo (pose);
+	}
 }
