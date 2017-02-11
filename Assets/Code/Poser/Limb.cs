@@ -70,12 +70,25 @@ public class Limb : MonoBehaviour
         _previousPoseIndex = Random.Range(0, poses.Length);
         _currentPoseIndex = (_previousPoseIndex + 1) % poses.Length;;
         _transitionTime = _limbAnimation.Duration;
+
+        ApplyPose();
     }
 
     private void RotateBone(Transform bone, float previousRotation, float currentRotation, float t)
     {
         float rotation = Mathf.LerpAngle(previousRotation, currentRotation, t);
         bone.localRotation = Quaternion.Euler(0, 0, rotation);
+    }
+
+    private void ApplyPose()
+    {
+        float currentLerp = _limbAnimation.Curve.Evaluate(_transitionTime / _limbAnimation.Duration);
+
+        LimbPose previousPose = _poses[_previousPoseIndex];
+        LimbPose currentPose = _poses[_currentPoseIndex];
+
+        RotateBone(_upperLimb.transform, previousPose.UpperRotation, currentPose.UpperRotation, currentLerp);
+        RotateBone(_lowerLimb.transform, previousPose.LowerRotation, currentPose.LowerRotation, currentLerp);
     }
 
 	public void UpdateLimb(float dt)
@@ -89,13 +102,7 @@ public class Limb : MonoBehaviour
             _currentPoseIndex = (_previousPoseIndex + 1) % _poses.Length;
         }
 
-        float currentLerp = _limbAnimation.Curve.Evaluate(_transitionTime / _limbAnimation.Duration);
-
-        LimbPose previousPose = _poses[_previousPoseIndex];
-        LimbPose currentPose = _poses[_currentPoseIndex];
-
-        RotateBone(_upperLimb.transform, previousPose.UpperRotation, currentPose.UpperRotation, currentLerp);
-        RotateBone(_lowerLimb.transform, previousPose.LowerRotation, currentPose.LowerRotation, currentLerp);
+        ApplyPose();
     }
 
     public void SetPose(int poseIndex)

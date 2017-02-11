@@ -18,7 +18,7 @@ public class PoseDiagramController : MonoBehaviour
         Poser stickman = Poser.CreatePoser(false, limbAnimation, stickmanParts, poseLibrary, keycodes);
         stickman.transform.parent = _rect;
         stickman.transform.localPosition = new Vector3(0, -10, 0);
-        stickman.transform.localScale = 40f * Vector3.one;
+        stickman.transform.localScale = 50f * Vector3.one;
         stickman.name = "Stickman";
         stickman.SetPose(pose.Pose);
 	
@@ -28,8 +28,6 @@ public class PoseDiagramController : MonoBehaviour
     private void SetPosition(float progress)
     {
         float width = _parentRect.rect.width;
-
-        Debug.LogFormat("WIDTH = {0}", width);
 
         _rect.localPosition = new Vector3(0.5f * (width + _rect.rect.width) * (1f - progress), 0, 0);   
     }
