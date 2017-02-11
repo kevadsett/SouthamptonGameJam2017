@@ -14,12 +14,16 @@ MonoBehaviour:
   LeftArmPoses:
   - {fileID: 11400000, guid: fc01ae79c5d0d4c43b8e9eb52e634b3e, type: 2}
   - {fileID: 11400000, guid: a575107ecaadb47798560138419b93a1, type: 2}
+  - {fileID: 11400000, guid: 816351a318f534295b591d01cc266791, type: 2}
   RightArmPoses:
   - {fileID: 11400000, guid: 7cacc27f1400742b3800e9d91090ea5f, type: 2}
   - {fileID: 11400000, guid: f2e5ee2559cdd4312b5b6e1a2bae44a6, type: 2}
+  - {fileID: 11400000, guid: eab2b1e5bc92f44b4b37f4e24fb00d32, type: 2}
   LeftLegPoses:
   - {fileID: 11400000, guid: 24f51943532734b0f9b361f318878529, type: 2}
   - {fileID: 11400000, guid: b8237f21f317b4aee906c7a859dd483d, type: 2}
+  - {fileID: 11400000, guid: 0e63c72f3c700408680885b761f12dde, type: 2}
   RightLegPoses:
   - {fileID: 11400000, guid: 6cc198bef9fe3457192dfc28931956dd, type: 2}
   - {fileID: 11400000, guid: 83b723c40ebfd4c7fb87f9036609ab16, type: 2}
+  - {fileID: 11400000, guid: cdaef720a8f874962b2600fdc1266008, type: 2}
