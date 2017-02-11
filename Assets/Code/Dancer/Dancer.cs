@@ -32,26 +32,21 @@ public class Dancer : MonoBehaviour
 
     private void Update()
     {
-        float minY = float.MaxValue;
+        float dt = Time.deltaTime;
+        velocity += Gravity * dt;
 
+        transform.localPosition += new Vector3(0, velocity, 0);
+
+        float minY = float.MaxValue;
         for(int i=0; i<limbs.Length; i++)
         {
             minY = Mathf.Min(limbs[i].CollisionPoint.position.y, minY);
         }
 
-        float dt = Time.deltaTime;
-        Vector3 position = transform.localPosition;
-
-        velocity += Gravity * dt;
-        position += new Vector3(0, velocity * dt, 0);
-
-        if(position.y < 0f)
+        if(minY < 0f)
         {
-            position.y = 0f;
-            velocity = 0f;
+            transform.localPosition -= new Vector3(0, minY, 0);
         }
-
-        transform.localPosition = position;
     }
 
     public PoseModel GetPose()
