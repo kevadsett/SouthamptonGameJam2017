@@ -6,6 +6,9 @@ using UnityEngine;
 public class MainGameState : GameState
 {
 	private float _timeToMatchPose = 20.0f;
+	private int _poseTargetsPerWave = 12;
+	private int _currentWaveIndex = 0;
+
 	private PoseGenerator _poseGenerator;
 
 	private List<TargetPose> _poseTargets;
@@ -44,6 +47,10 @@ public class MainGameState : GameState
         GameObject backgroundPrefab = Resources.Load<GameObject>("Background");
         GameObject.Instantiate(backgroundPrefab);
 
+		// Load the audio.
+		GameObject audioPrefab = Resources.Load<GameObject>("Audio");
+		GameObject.Instantiate(audioPrefab);
+
         // Load the players.
         LimbAnimation limbAnimation = Resources.Load<LimbAnimation>("LimbAnimation");
         PoserParts poserParts = Resources.Load<PoserParts>("MrBaguetteParts");
@@ -55,6 +62,11 @@ public class MainGameState : GameState
 		GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbonContainer");
 		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseDiagram");
 		_poseRibbon = new PoseRibbon(poseRibbonPrefab, poseDiagramPrefab, GameObject.Find("UICanvas").transform);
+
+		ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
+		ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
+		ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);
+		ViewBindings.Instance.BindValue ("Player2Lives", "" + _player2Lives);
 	}
 
 	public override void Update()
@@ -110,32 +122,44 @@ public class MainGameState : GameState
 	private void JudgePoses(TargetPose pose)
 	{
 		pose.HasBeenJudged = true;
-		bool shouldShowInterimScore = false;
+		bool someoneWasWrong = false;
         if (_player1.GetCurrentPose().Equals(pose))
 		{
 			Debug.Log ("Player 1 got it right");
 			_player1Score++;
+			ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
 		}
 		else
 		{
 			Debug.Log ("Player 1 got it wrong");
 			_player1Lives--;
-			shouldShowInterimScore = true;
+			ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
+			someoneWasWrong = true;
 		}
 		if (_player2.GetCurrentPose().Equals(pose))
 		{
 			Debug.Log ("Player 2 got it right");
 			_player2Score++;
+			ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);
 		}
 		else
 		{
 			Debug.Log ("Player 2 got it wrong");
 			_player2Lives--;
-			shouldShowInterimScore = true;
+			ViewBindings.Instance.BindValue ("Player2Lives", "" + _player2Lives);
+			someoneWasWrong = true;
 		}
-		if (shouldShowInterimScore)
+		if (someoneWasWrong)
 		{
 			StateMachine.PushState (eGameState.InterimScore);
+		}
+		else
+		{
+			_currentWaveIndex++;
+			if (_currentWaveIndex == _poseTargetsPerWave)
+			{
+				StateMachine.PushState (eGameState.InterimScore);
+			}
 		}
 	}
 }
