@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class PoseModel
 {
+
+
 	public bool HasExpired;
 	private float _expiryTime = 6.0f;
 	private float _age = 0.0f;

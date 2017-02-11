@@ -10,13 +10,24 @@ public class Limb : MonoBehaviour
     public SpriteRenderer LowerBone;
     public Transform CollisionPoint;
 
+    private KeyCode keycode;
     private int previousPoseIndex;
     private int currentPoseIndex;
     private float transitionTime;
 
-    public int CurrentPoseIndex
+    public int Current
     {
         get { return currentPoseIndex; }
+    }
+
+    public int RandomPose
+    {
+        get { return Random.Range(0, Poses.Length); }
+    }
+
+    public void Setup(KeyCode keycode)
+    {
+        this.keycode = keycode;
     }
 
     private void Awake()
@@ -36,7 +47,7 @@ public class Limb : MonoBehaviour
     {
         transitionTime = Mathf.MoveTowards(transitionTime, LimbAnimation.Duration, Time.deltaTime);
 
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(Input.GetKey(keycode))
         {
             transitionTime = 0f;
             previousPoseIndex = currentPoseIndex;

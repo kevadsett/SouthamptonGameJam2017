@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Dancer : MonoBehaviour
+public class Poser : MonoBehaviour
 {
     public Transform LeftArmSocket;
     public Transform RightArmSocket;
