@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd64d4380a14456989d0129b23aca1e, type: 3}
+  m_Name: MrBaguetteParts
+  m_EditorClassIdentifier: 
+  Torso: {fileID: 114000010719643732, guid: 39e21cd37f7fd43f19584e49a2e6d4b4, type: 2}
+  Head: {fileID: 1000012119297302, guid: af18e4e17935d4fab910422f77ad77d5, type: 2}
+  UpperArm: {fileID: 114000014283556830, guid: 6e47e612dcd3944a08b750a026abb43e, type: 2}
+  LowerArm: {fileID: 114000013829318978, guid: fdeb5a9e83168472b9146be4128486e5, type: 2}
+  UpperLeg: {fileID: 114000012354454626, guid: 14dff3bf2fbd247a69591cf2a3f7d224, type: 2}
+  LowerLeg: {fileID: 114000010170641872, guid: 1383b3ea605cf4d07b58669ab543e16d, type: 2}

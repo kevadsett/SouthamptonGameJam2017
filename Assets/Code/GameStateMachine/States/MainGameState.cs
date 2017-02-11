@@ -22,15 +22,11 @@ public class MainGameState : GameState
 
 	private PoseRibbon _poseRibbon;
 
-    private Poser CreatePoser(string name, float horizontalPosition, GameObject prefab, PoserTextures poserTextures, PoseLibrary poseLibrary, params KeyCode[] controls)
+    private Poser CreatePoser(string name, float horizontalPosition, LimbAnimation limbAnimation, PoserParts poserParts, PoseLibrary poseLibrary, params KeyCode[] controls)
     {
-        GameObject instance = GameObject.Instantiate(prefab);
-        instance.name = name;
-        instance.transform.position = new Vector3(horizontalPosition, 0, 0);
-
-        Poser poser = instance.GetComponent<Poser>();
-
-        poser.Setup(poserTextures, poseLibrary, controls);
+        Poser poser = Poser.CreatePoser(limbAnimation, poserParts, poseLibrary, controls);
+        poser.name = name;
+        poser.transform.position = new Vector3(horizontalPosition, 0, 0);
 
         return poser;
     }
@@ -49,11 +45,12 @@ public class MainGameState : GameState
         GameObject.Instantiate(backgroundPrefab);
 
         // Load the players.
-        PoserTextures poserTextures = Resources.Load<PoserTextures>("TestPoserTextures");
+        LimbAnimation limbAnimation = Resources.Load<LimbAnimation>("LimbAnimation");
+        PoserParts poserParts = Resources.Load<PoserParts>("MrBaguetteParts");
         GameObject poserPrefab = Resources.Load<GameObject>("Poser");
 
-        _player1 = CreatePoser("Player1", -4f, poserPrefab, poserTextures, poseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
-        _player2 = CreatePoser("Player2", 4f, poserPrefab, poserTextures, poseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
+        _player1 = CreatePoser("Player1", -10f, limbAnimation, poserParts, poseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
+        _player2 = CreatePoser("Player2", 10f, limbAnimation, poserParts, poseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
 
 		GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbonContainer");
 		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseDiagram");
