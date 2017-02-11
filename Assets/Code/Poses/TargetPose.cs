@@ -6,6 +6,8 @@ public class TargetPose
 {
     public Pose Pose;
 	public bool HasExpired;
+    public float TimeToMatchPose;
+
 	private float _expiryTime = 6.0f;
 	private float _age = 0.0f;
 

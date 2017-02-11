@@ -5,22 +5,24 @@ using System.Collections.Generic;
 public class PoseGenerator
 {
     private PoseLibrary _poseLibrary;
-	private float _secondsBetweenPoses;
+	private float _timeToMatchPose;
+	private float _timeBetweenGenerations;
 	private float _timeSinceLastPoseGenerated;
 
-	public PoseGenerator (PoseLibrary poseLibrary, float secondsBetweenPoses)
-	{
+    public PoseGenerator (PoseLibrary poseLibrary, float timeToMatchPose)
+    {
         _poseLibrary = poseLibrary;
-		_secondsBetweenPoses = secondsBetweenPoses;
+		_timeToMatchPose = timeToMatchPose;
+		_timeBetweenGenerations = _timeSinceLastPoseGenerated = _timeToMatchPose / 3;
 	}
 
 	public void Update(List<TargetPose> poseList)
 	{
 		_timeSinceLastPoseGenerated += Time.deltaTime;
-		if (_timeSinceLastPoseGenerated >= _secondsBetweenPoses)
+		if (_timeSinceLastPoseGenerated >= _timeBetweenGenerations)
 		{
 			poseList.Add(GeneratePose ());
-			_timeSinceLastPoseGenerated -= _secondsBetweenPoses;
+			_timeSinceLastPoseGenerated -= _timeBetweenGenerations;
 			DebugPrint (poseList);
 		}
 	}
@@ -30,6 +32,7 @@ public class PoseGenerator
         return new TargetPose
         {
             Pose = _poseLibrary.GeneratePose(),
+            TimeToMatchPose = _timeToMatchPose,
             HasExpired = false
         };
 	}

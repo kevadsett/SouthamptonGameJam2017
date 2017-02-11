@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MainGameState : GameState
 {
+	private float _timeToMatchPose = 20.0f;
 	private PoseGenerator _poseGenerator;
 
 	private List<TargetPose> _poseTargets;
@@ -38,7 +39,7 @@ public class MainGameState : GameState
 
 		_poseTargets = new List<TargetPose> ();
 		_posesToRemove = new List<TargetPose> ();
-		_poseGenerator = new PoseGenerator (poseLibrary, 2);
+		_poseGenerator = new PoseGenerator (poseLibrary, _timeToMatchPose);
 
         GameObject poserPrefab = Resources.Load<GameObject>("Poser");
 
@@ -64,6 +65,19 @@ public class MainGameState : GameState
 		foreach (TargetPose pose in _posesToRemove)
 		{
 			_poseTargets.Remove (pose);
+		}
+
+		if (_player1Lives == 0 && _player2Lives > 0)
+		{
+			StateMachine.ChangeState (eGameState.Player1Victory);
+		}
+		else if (_player2Lives == 0 && _player1Lives > 0)
+		{
+			StateMachine.ChangeState (eGameState.Player2Victory);
+		}
+		else if (_player1Lives == 0 && _player2Lives == 0)
+		{
+			StateMachine.ChangeState (eGameState.Draw);
 		}
 	}
 
