@@ -6,6 +6,9 @@ using UnityEngine;
 public class MainGameState : GameState
 {
 	private float _timeToMatchPose = 20.0f;
+	private int _poseTargetsPerWave = 12;
+	private int _currentWaveIndex = 0;
+
 	private PoseGenerator _poseGenerator;
 
 	private List<TargetPose> _poseTargets;
@@ -110,7 +113,7 @@ public class MainGameState : GameState
 	private void JudgePoses(TargetPose pose)
 	{
 		pose.HasBeenJudged = true;
-		bool shouldShowInterimScore = false;
+		bool someoneWasWrong = false;
         if (_player1.GetCurrentPose().Equals(pose))
 		{
 			Debug.Log ("Player 1 got it right");
@@ -120,7 +123,7 @@ public class MainGameState : GameState
 		{
 			Debug.Log ("Player 1 got it wrong");
 			_player1Lives--;
-			shouldShowInterimScore = true;
+			someoneWasWrong = true;
 		}
 		if (_player2.GetCurrentPose().Equals(pose))
 		{
@@ -131,11 +134,19 @@ public class MainGameState : GameState
 		{
 			Debug.Log ("Player 2 got it wrong");
 			_player2Lives--;
-			shouldShowInterimScore = true;
+			someoneWasWrong = true;
 		}
-		if (shouldShowInterimScore)
+		if (someoneWasWrong)
 		{
 			StateMachine.PushState (eGameState.InterimScore);
+		}
+		else
+		{
+			_currentWaveIndex++;
+			if (_currentWaveIndex == _poseTargetsPerWave)
+			{
+				StateMachine.PushState (eGameState.InterimScore);
+			}
 		}
 	}
 }
