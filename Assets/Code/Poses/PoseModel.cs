@@ -49,7 +49,7 @@ public class PoseModel
 		}
 	}
 
-	public bool IsEqual(PoseModel other)
+	public bool IsEqualTo(PoseModel other)
 	{
 		if (other.PoseDefinition.Count != _definition.Count)
 		{
