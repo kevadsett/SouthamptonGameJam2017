@@ -32,10 +32,13 @@ public class GameStateMachine
 
     public void ChangeState(eGameState newState)
     {
+        
         if(_currentState != null)
         {
             _currentState.ExitState();
+            Debug.Log("FROM " + _currentState.GetType().Name);
         }
+        Debug.Log("ENTERING " + newState);
         _currentState = _states[newState];
         _currentState.EnterState();
     }

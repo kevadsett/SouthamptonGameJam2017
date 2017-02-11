@@ -4,17 +4,18 @@ using System.Collections.Generic;
 
 public class PoseGenerator
 {
+    private PoseLibrary _poseLibrary;
 	private float _secondsBetweenPoses;
 	private float _timeSinceLastPoseGenerated;
 
-	public PoseGenerator (float secondsBetweenPoses)
+	public PoseGenerator (PoseLibrary poseLibrary, float secondsBetweenPoses)
 	{
+        _poseLibrary = poseLibrary;
 		_secondsBetweenPoses = secondsBetweenPoses;
 	}
 
-	public void Update(List<PoseModel> poseList)
+	public void Update(List<TargetPose> poseList)
 	{
-		
 		_timeSinceLastPoseGenerated += Time.deltaTime;
 		if (_timeSinceLastPoseGenerated >= _secondsBetweenPoses)
 		{
@@ -24,17 +25,19 @@ public class PoseGenerator
 		}
 	}
 
-	public PoseModel GeneratePose()
-	{
-		PoseModel pose = new PoseModel ();
-		pose.Randomise ();
-		return pose;
+    public TargetPose GeneratePose()
+    {
+        return new TargetPose
+        {
+            Pose = _poseLibrary.GeneratePose(),
+            HasExpired = false
+        };
 	}
 
-	private void DebugPrint(List<PoseModel> poseList)
+	private void DebugPrint(List<TargetPose> poseList)
 	{
 		string result = "[ - ";
-		foreach (PoseModel pose in poseList)
+		foreach (TargetPose pose in poseList)
 		{
 			result += pose + " - ";
 		}

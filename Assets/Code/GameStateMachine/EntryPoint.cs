@@ -7,8 +7,6 @@ public class EntryPoint : MonoBehaviour
 
     void Start()
     {
-        Object.DontDestroyOnLoad(this);
-
         var gameStates = new Dictionary<eGameState, GameState>
         {
             { eGameState.Load, new LoadGameState() },

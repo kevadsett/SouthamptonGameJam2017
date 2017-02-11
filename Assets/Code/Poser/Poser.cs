@@ -11,23 +11,29 @@ public class Poser : MonoBehaviour
     private float velocity;
     private Limb[] limbs;
 
-    private Limb LoadAndParentLimb(string name, Transform socket)
+    private void SetupLimb(eLimbType limbType, Transform socket, LimbPose[] poses,KeyCode[] controls)
     {
-        GameObject prefab = Resources.Load<GameObject>(name);
+        GameObject prefab = Resources.Load<GameObject>("Limbs/" + limbType);
         GameObject instance = GameObject.Instantiate(prefab);
 
         instance.transform.SetParent(socket, false);
 
-        return instance.GetComponent<Limb>();
+        Limb limb = instance.GetComponent<Limb>();
+
+        int limbIndex = (int)limbType;
+
+        limb.Setup(poses, controls[limbIndex]);
+
+        limbs[limbIndex] = limb;
     }
 
-    private void Awake()
+    public void Setup(PoseLibrary poseLibrary, KeyCode[] controls)
     {
         limbs = new Limb[4];
-        limbs[0] = LoadAndParentLimb("Limbs/LeftArm", LeftArmSocket);
-        limbs[1] = LoadAndParentLimb("Limbs/RightArm", RightArmSocket);
-        limbs[2] = LoadAndParentLimb("Limbs/LeftLeg", LeftLegSocket);
-        limbs[3] = LoadAndParentLimb("Limbs/RightLeg", RightLegSocket);
+        SetupLimb(eLimbType.LeftArm, LeftArmSocket, poseLibrary.LeftArmPoses, controls);
+        SetupLimb(eLimbType.RightArm, RightArmSocket, poseLibrary.RightArmPoses, controls);
+        SetupLimb(eLimbType.LeftLeg, LeftLegSocket, poseLibrary.LeftLegPoses, controls);
+        SetupLimb(eLimbType.RightLeg, RightLegSocket, poseLibrary.RightLegPoses, controls);
     }
 
     private void Update()
@@ -49,9 +55,18 @@ public class Poser : MonoBehaviour
         }
     }
 
-    public PoseModel GetPose()
+    public Pose GetCurrentPose()
     {
-        return null;
+        return new Pose
+        {
+            LimbPoses = new int[]
+            {
+                limbs[0].CurrentPose,
+                limbs[1].CurrentPose,
+                limbs[2].CurrentPose,
+                limbs[3].CurrentPose
+            }
+        };
     }
 }
 

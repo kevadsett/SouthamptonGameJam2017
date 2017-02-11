@@ -6,11 +6,12 @@ using UnityEngine;
 public class MainGameState : GameState
 {
 	private PoseGenerator _poseGenerator;
-	private List<PoseModel> _poseTargets;
-	private List<PoseModel> _posesToRemove;
 
-	private PoseController _player1;
-	private PoseController _player2;
+	private List<TargetPose> _poseTargets;
+	private List<TargetPose> _posesToRemove;
+
+	private Poser _player1;
+	private Poser _player2;
 
 	private int _player1Score;
 	private int _player2Score;
@@ -18,31 +19,39 @@ public class MainGameState : GameState
 	private int _player1Lives = 3;
 	private int _player2Lives = 3;
 
+    private Poser CreatePoser(string name, float horizontalPosition, GameObject prefab, PoseLibrary poseLibrary, params KeyCode[] controls)
+    {
+        GameObject instance = GameObject.Instantiate(prefab);
+        instance.name = name;
+        instance.transform.position = new Vector3(horizontalPosition, 0, 0);
+
+        Poser poser = instance.GetComponent<Poser>();
+
+        poser.Setup(poseLibrary, controls);
+
+        return poser;
+    }
+
 	public override void EnterState()
-	{
-		SceneManager.LoadScene ("Game", LoadSceneMode.Single);
-		_poseTargets = new List<PoseModel> ();
-		_posesToRemove = new List<PoseModel> ();
-		_poseGenerator = new PoseGenerator (2);
-		_player1 = new PoseController (
-			UnityEngine.KeyCode.Q,
-			UnityEngine.KeyCode.W,
-			UnityEngine.KeyCode.A,
-			UnityEngine.KeyCode.S
-		);
-		_player2 = new PoseController (
-			UnityEngine.KeyCode.I,
-			UnityEngine.KeyCode.O,
-			UnityEngine.KeyCode.K,
-			UnityEngine.KeyCode.L
-		);
+    {
+        PoseLibrary poseLibrary = Resources.Load<PoseLibrary>("PoseLibrary");
+
+		_poseTargets = new List<TargetPose> ();
+		_posesToRemove = new List<TargetPose> ();
+		_poseGenerator = new PoseGenerator (poseLibrary, 2);
+
+        GameObject poserPrefab = Resources.Load<GameObject>("Poser");
+
+        _player1 = CreatePoser("Player1", -4f, poserPrefab, poseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
+        _player2 = CreatePoser("Player2", 4f, poserPrefab, poseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
 	}
 
 	public override void Update()
 	{
 		_poseGenerator.Update (_poseTargets);
 		_posesToRemove.Clear ();
-		foreach (PoseModel pose in _poseTargets)
+
+		foreach (TargetPose pose in _poseTargets)
 		{
 			pose.Update ();
 			if (pose.HasExpired)
@@ -51,13 +60,11 @@ public class MainGameState : GameState
 				_posesToRemove.Add (pose);
 			}
 		}
-		foreach (PoseModel pose in _posesToRemove)
+
+		foreach (TargetPose pose in _posesToRemove)
 		{
 			_poseTargets.Remove (pose);
 		}
-		_player1.Update ();
-		_player2.Update ();
-
 	}
 
 	public override void ExitState()
@@ -65,9 +72,9 @@ public class MainGameState : GameState
 		_poseGenerator = null;
 	}
 
-	private void JudgePoses(PoseModel pose)
+	private void JudgePoses(TargetPose pose)
 	{
-		if (_player1.IsPoseCorrect (pose))
+        if (_player1.GetCurrentPose().Equals(pose))
 		{
 			Debug.Log ("Player 1 got it right");
 			_player1Score++;
@@ -77,7 +84,7 @@ public class MainGameState : GameState
 			Debug.Log ("Player 1 got it wrong");
 			_player1Lives--;
 		}
-		if (_player2.IsPoseCorrect (pose))
+		if (_player2.GetCurrentPose().Equals(pose))
 		{
 			Debug.Log ("Player 2 got it right");
 			_player2Score++;

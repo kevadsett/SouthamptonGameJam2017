@@ -5,36 +5,28 @@ public class Limb : MonoBehaviour
     public LimbAnimation LimbAnimation;
 
     [Space]
-    public LimbPose[] Poses;
     public SpriteRenderer UpperBone;
     public SpriteRenderer LowerBone;
     public Transform CollisionPoint;
 
-    private KeyCode keycode;
-    private int previousPoseIndex;
-    private int currentPoseIndex;
-    private float transitionTime;
+    private LimbPose[] _poses;
+    private KeyCode _keycode;
+    private int _previousPoseIndex;
+    private int _currentPoseIndex;
+    private float _transitionTime;
 
-    public int Current
+    public int CurrentPose
     {
-        get { return currentPoseIndex; }
+        get { return _currentPoseIndex; }
     }
 
-    public int RandomPose
+    public void Setup(LimbPose[] poses, KeyCode keycode)
     {
-        get { return Random.Range(0, Poses.Length); }
-    }
-
-    public void Setup(KeyCode keycode)
-    {
-        this.keycode = keycode;
-    }
-
-    private void Awake()
-    {
-        transitionTime = LimbAnimation.Duration;
-        previousPoseIndex = Random.Range(0, Poses.Length);
-        currentPoseIndex = (previousPoseIndex + 1) % Poses.Length;
+        _poses = poses;
+        _keycode = keycode;
+        _transitionTime = LimbAnimation.Duration;
+        _previousPoseIndex = Random.Range(0, poses.Length);
+        _currentPoseIndex = (_previousPoseIndex + 1) % poses.Length;
     }
 
     private void RotateBone(Transform bone, float previousRotation, float currentRotation, float t)
@@ -45,19 +37,19 @@ public class Limb : MonoBehaviour
 
     private void Update()
     {
-        transitionTime = Mathf.MoveTowards(transitionTime, LimbAnimation.Duration, Time.deltaTime);
+        _transitionTime = Mathf.MoveTowards(_transitionTime, LimbAnimation.Duration, Time.deltaTime);
 
-        if(Input.GetKey(keycode))
+        if(Input.GetKeyDown(_keycode))
         {
-            transitionTime = 0f;
-            previousPoseIndex = currentPoseIndex;
-            currentPoseIndex = (previousPoseIndex + 1) % Poses.Length;
+            _transitionTime = 0f;
+            _previousPoseIndex = _currentPoseIndex;
+            _currentPoseIndex = (_previousPoseIndex + 1) % _poses.Length;
         }
 
-        float currentLerp = LimbAnimation.Curve.Evaluate(transitionTime / LimbAnimation.Duration);
+        float currentLerp = LimbAnimation.Curve.Evaluate(_transitionTime / LimbAnimation.Duration);
 
-        LimbPose previousPose = Poses[previousPoseIndex];
-        LimbPose currentPose = Poses[currentPoseIndex];
+        LimbPose previousPose = _poses[_previousPoseIndex];
+        LimbPose currentPose = _poses[_currentPoseIndex];
 
         RotateBone(UpperBone.transform, previousPose.UpperRotation, currentPose.UpperRotation, currentLerp);
         RotateBone(LowerBone.transform, previousPose.LowerRotation, currentPose.LowerRotation, currentLerp);
