@@ -20,6 +20,8 @@ public class MainGameState : GameState
 	private int _player1Lives = 3;
 	private int _player2Lives = 3;
 
+	private PoseRibbon _poseRibbon;
+
     private Poser CreatePoser(string name, float horizontalPosition, GameObject prefab, PoseLibrary poseLibrary, params KeyCode[] controls)
     {
         GameObject instance = GameObject.Instantiate(prefab);
@@ -45,11 +47,21 @@ public class MainGameState : GameState
 
         _player1 = CreatePoser("Player1", -4f, poserPrefab, poseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
         _player2 = CreatePoser("Player2", 4f, poserPrefab, poseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
+
+		GameObject poseRibbonPrefab = Resources.Load<GameObject> ("UI/PoseRibbonContainer");
+		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseDiagram");
+		_poseRibbon = new PoseRibbon(poseRibbonPrefab, poseDiagramPrefab, GameObject.Find("UICanvas").transform);
 	}
 
 	public override void Update()
 	{
-		_poseGenerator.Update (_poseTargets);
+		TargetPose newPose = _poseGenerator.AddPoseIfNeeded (_poseTargets);
+
+		if (newPose != null)
+		{
+			_poseRibbon.AddNewPoseDiagram (newPose);
+		}
+
 		_posesToRemove.Clear ();
 
 		foreach (TargetPose pose in _poseTargets)
