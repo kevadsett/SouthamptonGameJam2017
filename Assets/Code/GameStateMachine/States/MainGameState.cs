@@ -107,33 +107,28 @@ public class MainGameState : GameState
 
 		_posesToRemove.Clear ();
 
-		foreach (TargetPose pose in _poseTargets)
+        for(int i=0; i<_poseTargets.Count; i++)
         {
+            TargetPose pose = _poseTargets[i];
 			pose.Update ();
 			if (pose.HasExpired)
 			{
 				if (pose.HasBeenJudged == false)
 				{
-					JudgePoses (pose);
+					JudgePoses(pose);
 				}
-//				_posesToRemove.Add (pose);
 			}
 		}
 
-//		foreach (TargetPose pose in _posesToRemove)
-//		{
-//			_poseTargets.Remove (pose);
-//		}
-
-		if (_player1Lives == 0 && _player2Lives > 0)
-		{
-			StateMachine.ChangeState (eGameState.Player1Victory);
-		}
-		else if (_player2Lives == 0 && _player1Lives > 0)
+		if (_player1Lives < 1 && _player2Lives > 0)
 		{
 			StateMachine.ChangeState (eGameState.Player2Victory);
 		}
-		else if (_player1Lives == 0 && _player2Lives == 0)
+		else if (_player2Lives < 1 && _player1Lives > 0)
+		{
+			StateMachine.ChangeState (eGameState.Player1Victory);
+		}
+		else if (_player1Lives < 1 && _player2Lives == 0)
 		{
 			StateMachine.ChangeState (eGameState.Draw);
 		}
@@ -154,7 +149,7 @@ public class MainGameState : GameState
 	{
 		pose.HasBeenJudged = true;
 		bool someoneWasWrong = false;
-        if (_player1.GetCurrentPose().Equals(pose))
+        if (_player1.GetCurrentPose().Matches(pose.Pose))
 		{
 			_player1Score++;
 			ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
@@ -165,7 +160,7 @@ public class MainGameState : GameState
 			ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
 			someoneWasWrong = true;
 		}
-		if (_player2.GetCurrentPose().Equals(pose))
+		if (_player2.GetCurrentPose().Matches(pose.Pose))
 		{
 			_player2Score++;
 			ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);

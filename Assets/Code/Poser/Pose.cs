@@ -2,7 +2,7 @@
 {
     public int[] LimbPoses;
 
-    public bool Equals(Pose other)
+    public bool Matches(Pose other)
     {
         if(LimbPoses.Length != other.LimbPoses.Length)
         {
