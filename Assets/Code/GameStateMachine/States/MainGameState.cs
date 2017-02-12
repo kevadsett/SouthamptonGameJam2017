@@ -30,6 +30,8 @@ public class MainGameState : GameState
 
 	private GameObject _backgroundCanvas;
 
+    private JudgingScreen _judgingScreen;
+
     private Poser CreatePlayer(string name, float horizontalPosition, LimbAnimation limbAnimation, PoserParts poserParts, PoseLibrary poseLibrary, params KeyCode[] controls)
     {
         Poser poser = Poser.CreatePoser(true, limbAnimation, poserParts, poseLibrary, controls);
@@ -67,11 +69,12 @@ public class MainGameState : GameState
 		GameObject poseRibbonForegroundPrefab = Resources.Load<GameObject> ("UI/PoseRibbonForeground");
 		GameObject poseDiagramPrefab = Resources.Load<GameObject> ("UI/PoseRibbonDiagram");
 		GameObject scoreLivesPrefab = Resources.Load<GameObject> ("UI/Score_Lives");
+        GameObject judgingScreenPrefab = Resources.Load<GameObject>("UI/JudgingScreen");
 
         // Set up the UI.
 		GameObject backgroundCanvasPrefab = Resources.Load<GameObject> ("UI/BackgroundCanvas");
-		GameObject canvasObject = GameObject.Find ("UICanvas") as GameObject;
-        GameObject backgroundCanvas = GameObject.Find("ForegroundUICanvas") as GameObject;
+        GameObject canvasObject = GameObject.Find("UICanvas");
+        GameObject backgroundCanvas = GameObject.Find("ForegroundUICanvas");
 
 		RectTransform canvasTransform = canvasObject.GetComponent<RectTransform> ();
         RectTransform foregroundCanvasTransform = backgroundCanvas.GetComponent<RectTransform>();
@@ -89,6 +92,9 @@ public class MainGameState : GameState
 		_backgroundCanvas = GameObject.Instantiate (backgroundCanvasPrefab);
 		GameObject backgroundCameraObject = GameObject.Find ("BackgroundCamera");
 		_backgroundCanvas.GetComponent<Canvas> ().worldCamera =  backgroundCameraObject.GetComponent<Camera>();
+
+        _judgingScreen = GameObject.Instantiate(judgingScreenPrefab).GetComponent<JudgingScreen>();
+        _judgingScreen.transform.SetParent(canvasTransform, false);
 
 		ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
 		ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
@@ -149,7 +155,13 @@ public class MainGameState : GameState
 	{
 		pose.HasBeenJudged = true;
 		bool someoneWasWrong = false;
-        if (_player1.GetCurrentPose().Matches(pose.Pose))
+
+        bool player1Success = _player1.GetCurrentPose().Matches(pose.Pose);
+        bool player2Success = _player2.GetCurrentPose().Matches(pose.Pose);
+
+        _judgingScreen.DisplayResults(player1Success, player2Success);
+
+        if(player1Success)
 		{
 			_player1Score++;
 			ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
@@ -160,7 +172,8 @@ public class MainGameState : GameState
 			ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
 			someoneWasWrong = true;
 		}
-		if (_player2.GetCurrentPose().Matches(pose.Pose))
+
+		if(player2Success)
 		{
 			_player2Score++;
 			ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);
@@ -171,16 +184,17 @@ public class MainGameState : GameState
 			ViewBindings.Instance.BindValue ("Player2Lives", "" + _player2Lives);
 			someoneWasWrong = true;
 		}
+
 		if (someoneWasWrong)
 		{
-			StateMachine.PushState (eGameState.InterimScore);
+			StateMachine.PushState(eGameState.InterimScore);
 		}
 		else
 		{
 			_currentWaveIndex++;
 			if (_currentWaveIndex == _poseTargetsPerWave)
 			{
-				StateMachine.PushState (eGameState.InterimScore);
+				StateMachine.PushState(eGameState.InterimScore);
 			}
 		}
 	}

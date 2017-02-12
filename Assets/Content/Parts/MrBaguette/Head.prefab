@@ -83,7 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bobrate: 0.5
   rotrate: 0.125
-  bobdist: -0.5
+  bobdist: -0.25
   rotdist: 7
 --- !u!212 &212000010858041650
 SpriteRenderer:
