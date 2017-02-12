@@ -98,12 +98,41 @@ public class Limb : MonoBehaviour
         if(Input.GetKeyDown(_keycode))
         {
             _transitionTime = 0f;
-            _previousPoseIndex = _currentPoseIndex;
-            _currentPoseIndex = (_previousPoseIndex + 1) % _poses.Length;
+            NextPose ();
         }
 
         ApplyPose();
     }
+
+	private bool goingUp;
+
+	private void NextPose()
+	{
+		_previousPoseIndex = _currentPoseIndex;
+
+		if (goingUp)
+		{
+			_currentPoseIndex++;
+			if (_currentPoseIndex >= _poses.Length)
+			{
+				Debug.Log ("ok");
+
+				_currentPoseIndex = _poses.Length - 2;
+				goingUp = false;
+			}
+		}
+		else
+		{
+			_currentPoseIndex--;
+			if (_currentPoseIndex < 0)
+			{
+				_currentPoseIndex = 1;
+				goingUp = true;
+			}
+		}
+
+		Debug.LogFormat ("{0} -> {1}", _previousPoseIndex, _currentPoseIndex);
+	}
 
     public void SetPose(int poseIndex)
     {
