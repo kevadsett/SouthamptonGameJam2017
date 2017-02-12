@@ -112,6 +112,9 @@ public class MainGameState : GameState
 				if (_barsPassed == GameData.BarCount)
 				{
 					_currentRound++;
+
+                    ViewBindings.Instance.BindValue("CurrentRound", _currentRound);
+
 					_barsPassed = 0;
 					if (_currentRound < _maxRounds)
                     {

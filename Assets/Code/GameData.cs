@@ -18,6 +18,7 @@ public static class GameData
 
 	public static GameObject TitleScreenPrefab;
     public static GameObject GameOverScreenPrefab;
+    public static GameObject InterimScreen;
 
 	public static Poser Player1;
 	public static Poser Player2;

@@ -26,6 +26,7 @@ public class LoadGameState : GameState
 
 		GameData.TitleScreenPrefab = Resources.Load<GameObject> ("UI/TitleScreen");
         GameData.GameOverScreenPrefab = Resources.Load<GameObject>("UI/GameOverScreen");
+        GameData.InterimScreen = Resources.Load<GameObject>("UI/InterimScreen");
 
 		// Load the audio.
 		GameData.AudioPrefab = Resources.Load<GameObject>("Audio");
