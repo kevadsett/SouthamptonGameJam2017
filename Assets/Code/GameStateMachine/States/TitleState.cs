@@ -12,6 +12,8 @@ public class TitleState : GameState
 
 		_titleScreen = GameObject.Instantiate (GameData.TitleScreenPrefab);
 		_titleScreen.transform.SetParent (GameData.CanvasTransform, false);
+
+		GameObject.Instantiate(GameData.AudioPrefab);
 	}
 
 	public override void Update ()
@@ -20,11 +22,16 @@ public class TitleState : GameState
 		{
 			StateMachine.ChangeState (eGameState.Start);
 		}
+		else
+		{
+			MusicPlayer.Play (0);
+		}
 	}
 
 	public override void ExitState ()
 	{
 		GameObject.Destroy (_titleScreen);
+		MusicPlayer.FadeOut (0);
 	}
 }
 

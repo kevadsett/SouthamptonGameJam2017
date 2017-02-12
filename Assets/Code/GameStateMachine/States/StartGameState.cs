@@ -22,6 +22,9 @@ public class StartGameState : GameState
 		GameObject backgroundCameraObject = GameObject.Find ("BackgroundCamera");
 		backgroundCanvas.GetComponent<Canvas> ().worldCamera =  backgroundCameraObject.GetComponent<Camera>();
 
+		GameObject scoreLivesPrefab = GameObject.Instantiate (GameData.ScoreLivesPrefab);
+		scoreLivesPrefab.transform.SetParent (foregroundCanvas.transform, false);
+
         GameData.PoseManager.GeneratePosesForRound(GameData.WaveCount);
 	}
 
