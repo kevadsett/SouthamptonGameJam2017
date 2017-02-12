@@ -6,9 +6,9 @@ public class TargetPose
 {
 	private static int _instanceIndex;
     public Pose Pose;
-	public bool HasExpired;
     public int Beat;
 	public bool HasBeenJudged;
+    public GameObject Diagram;
 
     public override string ToString()
     {

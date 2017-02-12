@@ -27,6 +27,8 @@ public class LoadGameState : GameState
 
 		// Load the audio.
 		GameData.AudioPrefab = Resources.Load<GameObject>("Audio");
+
+        GameData.PoseManager = new PoseManager (GameData.PoseLibrary);
 	}
 
 	public override void Update()

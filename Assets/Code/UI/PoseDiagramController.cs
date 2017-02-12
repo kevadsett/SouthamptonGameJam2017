@@ -4,7 +4,6 @@ using UnityEngine;
 public class PoseDiagramController : MonoBehaviour
 {
     private const int _visibleBars = 7;
-    private const int _beatsPerPose = 4;
 
     private TargetPose _targetPose;
     private RectTransform _rect;
@@ -38,8 +37,8 @@ public class PoseDiagramController : MonoBehaviour
     private float GetTargetProgress()
     {
         int currentBeat = BeatManager.CurrentBeat;
-        int targetBeat = _targetPose.Beat;
-        int barIndex = (_visibleBars / 2) - Mathf.FloorToInt((currentBeat - targetBeat) / (float)_beatsPerPose);
+        int targetBeat = _targetPose.Beat + 1;
+        int barIndex = - 1 -Mathf.FloorToInt((currentBeat - targetBeat) / (float)GameData.BeatsPerPose);
 
         return 0.5f + barIndex / (float)_visibleBars;
     }
