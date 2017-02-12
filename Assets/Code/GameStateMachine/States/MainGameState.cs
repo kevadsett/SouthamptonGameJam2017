@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class MainGameState : GameState
 {
-	private float _timeToMatchPose = 20.0f;
 	private int _poseTargetsPerWave = 12;
 	private int _currentWaveIndex = 0;
+
+	private float[] _bpms = new float[] { 120, 140, 160, 180 };
+	private float _currentBpm;
+	private int _currentRound;
 
 	private PoseGenerator _poseGenerator;
 
@@ -48,7 +51,7 @@ public class MainGameState : GameState
 
 		_poseTargets = new List<TargetPose> ();
 		_posesToRemove = new List<TargetPose> ();
-		_poseGenerator = new PoseGenerator (_poseLibrary, _timeToMatchPose);
+		_poseGenerator = new PoseGenerator (_poseLibrary);
 
 		// Load the audio.
 		GameObject audioPrefab = Resources.Load<GameObject>("Audio");
@@ -100,10 +103,14 @@ public class MainGameState : GameState
 		ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
 		ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);
 		ViewBindings.Instance.BindValue ("Player2Lives", "" + _player2Lives);
+
+		_currentBpm = _bpms [_currentRound];
+		ViewBindings.Instance.BindValue ("bpm", _currentBpm);
 	}
 
 	public override void Update()
 	{
+		BeatManager.Update (Time.deltaTime);
 		TargetPose newPose = _poseGenerator.AddPoseIfNeeded (_poseTargets);
 
 		if (newPose != null)
@@ -194,9 +201,17 @@ public class MainGameState : GameState
 			_currentWaveIndex++;
 			if (_currentWaveIndex == _poseTargetsPerWave)
 			{
-				StateMachine.PushState(eGameState.InterimScore);
+				StartNextRound();
 			}
 		}
+	}
+
+	private void StartNextRound()
+	{
+		_currentWaveIndex++;
+		_currentBpm = _bpms [_currentWaveIndex];
+		StateMachine.PushState (eGameState.InterimScore);
+		ViewBindings.Instance.BindValue ("bpm", _currentBpm);
 	}
 }
 

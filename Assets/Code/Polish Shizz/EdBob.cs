@@ -10,8 +10,6 @@ public class EdBob : MonoBehaviour
 
 	private void Update ()
 	{
-		ViewBindings.Instance.BindValue ("bpm", 120.0f);
-
 		float bpm;
 		if (ViewBindings.Instance.TryGetBoundValue ("bpm", out bpm))
 		{

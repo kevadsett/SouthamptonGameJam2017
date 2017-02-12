@@ -7,7 +7,9 @@ public class TargetPose
 	private static int _instanceIndex;
     public Pose Pose;
 	public bool HasExpired;
-    public float TimeToMatchPose;
+
+	private float _timeSinceLastBeat;
+    private float _timeToMatchPose;
 	public bool HasBeenJudged;
 
 	public string ProgressKey;
@@ -16,12 +18,12 @@ public class TargetPose
 	{
 		get
 		{
-			return _age / _expiryTime;
+			return _ageInBeats / _beatsBeforeGuess;
 		}
 	}
 
-	private float _expiryTime = 6.0f;
-	private float _age = 0.0f;
+	private float _beatsBeforeGuess = 16;
+	private float _ageInBeats;
 
 	public TargetPose()
 	{
@@ -31,10 +33,10 @@ public class TargetPose
 
 	public void Update()
 	{
-		_age += Time.deltaTime;
-		if (_age > _expiryTime)
+		_timeSinceLastBeat += Time.deltaTime;
+		if (BeatManager.IsBeatFrame)
 		{
-			HasExpired = true;
+			_ageInBeats++;
 		}
 		if (ViewBindings.Instance != null)
 		{
