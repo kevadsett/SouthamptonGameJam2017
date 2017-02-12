@@ -35,6 +35,9 @@ public class MainGameState : GameState
 
     private JudgingScreen _judgingScreen;
 
+	private int _beatsPassed;
+	private int _barsPassed;
+
     private Poser CreatePlayer(string name, float horizontalPosition, LimbAnimation limbAnimation, PoserParts poserParts, PoseLibrary poseLibrary, params KeyCode[] controls)
     {
         Poser poser = Poser.CreatePoser(true, limbAnimation, poserParts, poseLibrary, controls);
@@ -107,12 +110,13 @@ public class MainGameState : GameState
 		// Load the audio.
 		GameObject audioPrefab = Resources.Load<GameObject>("Audio");
 		GameObject.Instantiate(audioPrefab);
-		AudioPlayer.PlaySound(_currentBpm + "bpm", Vector3.zero);
 	}
 
 	public override void Update()
 	{
-		BeatManager.Update (Time.deltaTime);
+		float dt = Time.deltaTime;
+		BeatManager.Update (dt);
+
 		TargetPose newPose = _poseGenerator.AddPoseIfNeeded (_poseTargets);
 
 		if (newPose != null)
@@ -148,10 +152,39 @@ public class MainGameState : GameState
 			StateMachine.ChangeState (eGameState.Draw);
 		}
 
-        float dt = Time.deltaTime;
-
 		_player1.UpdatePose(dt);
 		_player2.UpdatePose(dt);
+
+		if (BeatManager.IsBeatFrame)
+		{
+			string trackName = _currentBpm + "bpm";
+			if (AudioPlayer.IsPlaying (trackName) == false)
+			{
+				AudioPlayer.PlaySound (trackName, Vector3.zero);
+			}
+			_beatsPassed++;
+			Debug.Log (_barsPassed + " : " + _beatsPassed);
+			if (_beatsPassed == 4)
+			{
+				_barsPassed++;
+				_beatsPassed = 0;
+				if (_barsPassed == 12)
+				{
+					_currentRound++;
+					_barsPassed = 0;
+					if (_currentRound < 4)
+					{
+						
+						StartNextRound ();
+					}
+					else
+					{
+						// TODO: Have an "everybody wins" state or reset or something.
+						StateMachine.ChangeState (eGameState.Draw);
+					}
+				}
+			}
+		}
 	}
 
 	public override void ExitState()
@@ -210,6 +243,7 @@ public class MainGameState : GameState
 
 	private void StartNextRound()
 	{
+		_poseGenerator.Reset ();
 		_currentWaveIndex++;
 		_currentBpm = _bpms [_currentWaveIndex];
 		StateMachine.PushState (eGameState.InterimScore);

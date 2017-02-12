@@ -6,6 +6,8 @@ public static class BeatManager
 
 	public static bool IsBeatFrame;
 
+	public static int CurrentBeat;
+
 	public static void Update(float dt)
 	{
 		float bpm;
@@ -17,10 +19,18 @@ public static class BeatManager
 		{
 			_timeSinceLastBeat -= beatTime;
 			IsBeatFrame = true;
+			CurrentBeat = (CurrentBeat + 1) % 4;
 		}
 		else
 		{
 			IsBeatFrame = false;
 		}
+	}
+
+	public static void Reset()
+	{
+		_timeSinceLastBeat = 0;
+		IsBeatFrame = false;
+		CurrentBeat = 0;
 	}
 }
