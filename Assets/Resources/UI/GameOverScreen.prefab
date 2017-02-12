@@ -139,6 +139,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 224000010332227180}
   - 114: {fileID: 114000013366741160}
+  - 111: {fileID: 111000012902802082}
   m_Layer: 5
   m_Name: GameOverScreen
   m_TagString: Untagged
@@ -246,6 +247,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &111000012902802082
+Animation:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012568761782}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: f0e836b1ff4f04e31a04b4f596b84bd1, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: f0e836b1ff4f04e31a04b4f596b84bd1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114000010019362834
 MonoBehaviour:
   m_ObjectHideFlags: 1

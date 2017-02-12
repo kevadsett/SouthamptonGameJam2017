@@ -26,6 +26,11 @@ public class StartGameState : GameState
 		scoreLivesPrefab.transform.SetParent (foregroundCanvas.transform, false);
 
         GameData.PoseManager.GeneratePosesForRound(GameData.WaveCount);
+
+
+
+        ViewBindings.Instance.BindValue ("Player1Score", "0");
+        ViewBindings.Instance.BindValue ("Player2Score", "0");
 	}
 
 	public override void Update ()
