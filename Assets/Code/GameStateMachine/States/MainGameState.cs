@@ -123,7 +123,7 @@ public class MainGameState : GameState
         for(int i=0; i<_poseTargets.Count; i++)
         {
             TargetPose pose = _poseTargets[i];
-			pose.Update ();
+
 			if (pose.HasExpired)
 			{
 				if (pose.HasBeenJudged == false)

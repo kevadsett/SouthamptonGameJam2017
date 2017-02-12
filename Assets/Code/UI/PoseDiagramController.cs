@@ -6,6 +6,7 @@ public class PoseDiagramController : MonoBehaviour
     private TargetPose _pose;
     private RectTransform _rect;
     private RectTransform _parentRect;
+	private float _moveSpeed = 100f;
 
 	public void Setup(RectTransform parentRect, TargetPose pose, LimbAnimation limbAnimation, PoserParts stickmanParts, PoseLibrary poseLibrary)
 	{
@@ -34,10 +35,6 @@ public class PoseDiagramController : MonoBehaviour
 
     private void Update()
     {
-        float progress;
-        if(ViewBindings.Instance.TryGetBoundValue(_pose.ProgressKey, out progress))
-        {
-            SetPosition(progress);
-        }
+		_rect.localPosition = new Vector3 (_rect.localPosition.x - (_moveSpeed * Time.deltaTime), _rect.localPosition.y, _rect.localPosition.z);
     }
 }
