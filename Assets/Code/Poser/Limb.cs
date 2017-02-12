@@ -115,8 +115,6 @@ public class Limb : MonoBehaviour
 			_currentPoseIndex++;
 			if (_currentPoseIndex >= _poses.Length)
 			{
-				Debug.Log ("ok");
-
 				_currentPoseIndex = _poses.Length - 2;
 				goingUp = false;
 			}
@@ -130,8 +128,6 @@ public class Limb : MonoBehaviour
 				goingUp = true;
 			}
 		}
-
-		Debug.LogFormat ("{0} -> {1}", _previousPoseIndex, _currentPoseIndex);
 	}
 
     public void SetPose(int poseIndex)

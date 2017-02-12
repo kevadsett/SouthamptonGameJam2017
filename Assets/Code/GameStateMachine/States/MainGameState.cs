@@ -41,9 +41,9 @@ public class MainGameState : GameState
             JudgePoses(GameData.PoseManager.GetTargetPose(BeatManager.CurrentBeat / GameData.BeatsPerPose));
         }
 
-        BeatManager.Update (dt);
+        UpdateMusic ();
 
-		UpdateMusic ();
+        BeatManager.Update (dt);
 
 		GameData.Player1.UpdatePose(dt);
 		GameData.Player2.UpdatePose(dt);
@@ -87,6 +87,8 @@ public class MainGameState : GameState
 			string trackName = _currentBpm + "bpm";
 			if (AudioPlayer.IsPlaying (trackName) == false)
 			{
+                Debug.Log("PLAYING " + trackName);
+                
 				AudioPlayer.PlaySound (trackName, Vector3.zero);
 			}
 		}
@@ -134,7 +136,7 @@ public class MainGameState : GameState
 
 	private void StartNextRound()
     {
-        _currentBpm = _bpms [_currentWaveIndex++];
+        _currentBpm = _bpms [++_currentWaveIndex];
 		StateMachine.PushState (eGameState.InterimScore);
 		ViewBindings.Instance.BindValue ("bpm", _currentBpm);
 	}
