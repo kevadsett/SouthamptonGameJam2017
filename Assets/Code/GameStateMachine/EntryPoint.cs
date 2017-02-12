@@ -15,7 +15,8 @@ public class EntryPoint : MonoBehaviour
 			{ eGameState.Player2Victory, new GameOverState(eGameOverType.Player2Victory) },
 			{ eGameState.Draw, new GameOverState(eGameOverType.Draw) },
             { eGameState.InterimScore, new InterimScoreState(5) },
-			{ eGameState.Start, new StartGameState() }
+			{ eGameState.Start, new StartGameState() },
+			{ eGameState.Title, new TitleState() }
         };
 
         _gameStateMachine = new GameStateMachine(gameStates, eGameState.Load);

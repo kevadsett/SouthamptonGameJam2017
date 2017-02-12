@@ -13,22 +13,18 @@ public class PoseLibrary : ScriptableObject
 
 	public Pose GeneratePose(int mutations = 2)
     {
-		int[] limbPoses = new int[] { lastLA, lastRA, lastLL, lastRL };
-		int[] newLimbPoses = limbPoses;
+		var pose = new Pose { LimbPoses = new int[] { lastLA, lastRA, lastLL, lastRL } };
+		var newPose = new Pose { LimbPoses = pose.LimbPoses };
 
-		while (PosesToStr (limbPoses) == PosesToStr (newLimbPoses))
+		while (newPose.Matches (pose))
 		{
 			for (int i = 0; i < mutations; i++)
 			{
-				
-				newLimbPoses = Mutate (limbPoses);
+				newPose.LimbPoses = Mutate (newPose.LimbPoses);
 			}
 		}
 
-        return new Pose
-        {
-			LimbPoses = newLimbPoses
-        };
+		return newPose;
     }
 
 	private string PosesToStr (int[] limbPoses)

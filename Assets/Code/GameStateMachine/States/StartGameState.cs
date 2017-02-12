@@ -3,29 +3,47 @@ using UnityEngine;
 
 public class StartGameState : GameState
 {
-
-	private GameObject _startScreen;
 	public override void EnterState ()
 	{
-		GameObject startScreenPrefab = Resources.Load<GameObject> ("UI/StartScreen");
-		GameObject canvasObject = GameObject.Find ("UICanvas") as GameObject;
-		RectTransform canvasTransform = canvasObject.GetComponent<RectTransform> ();
+		GameData.Player1 = CreatePlayer("Player1", -15f, GameData.LimbAnimation, GameData.PlayerParts, GameData.PoseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
+		GameData.Player2 = CreatePlayer("Player2", 15f, GameData.LimbAnimation, GameData.PlayerParts, GameData.PoseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
 
-		_startScreen = GameObject.Instantiate (startScreenPrefab);
-		_startScreen.transform.SetParent (canvasTransform, false);
+		GameObject foregroundCanvas = GameObject.Find("ForegroundUICanvas");
+		RectTransform foregroundCanvasTransform = foregroundCanvas.GetComponent<RectTransform>();
+
+		GameData.PoseRibbon = GameObject.Instantiate(GameData.PoseRibbonPrefab).GetComponent<PoseRibbon>();
+		GameData.PoseRibbon.transform.SetParent(GameData.CanvasTransform, false);
+		GameData.PoseRibbon.Setup(GameData.PoseDiagramPrefab);
+
+		GameObject poseRibbonForeground = GameObject.Instantiate(GameData.PoseRibbonForegroundPrefab);
+		poseRibbonForeground.transform.SetParent(foregroundCanvasTransform, false);
+
+		GameObject backgroundCanvas = GameObject.Instantiate (GameData.BackgroundCanvasPrefab);
+		GameObject backgroundCameraObject = GameObject.Find ("BackgroundCamera");
+		backgroundCanvas.GetComponent<Canvas> ().worldCamera =  backgroundCameraObject.GetComponent<Camera>();
 	}
 
 	public override void Update ()
 	{
-		if (Input.GetKeyDown (KeyCode.Space))
+		if (GameData.Player1.GetCurrentPose().Matches(GameData.Player2.GetCurrentPose()))
 		{
-			StateMachine.ChangeState (eGameState.Game);
+			StateMachine.ChangeState(eGameState.Game);
 		}
 	}
 
 	public override void ExitState ()
 	{
-		GameObject.Destroy (_startScreen);
+		
+	}
+
+
+	private Poser CreatePlayer(string name, float horizontalPosition, LimbAnimation limbAnimation, PoserParts poserParts, PoseLibrary poseLibrary, params KeyCode[] controls)
+	{
+		Poser poser = Poser.CreatePoser(true, limbAnimation, poserParts, poseLibrary, controls);
+		poser.name = name;
+		poser.transform.position = new Vector3(horizontalPosition, 0, 0);
+
+		return poser;
 	}
 }
 
