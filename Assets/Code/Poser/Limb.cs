@@ -67,8 +67,8 @@ public class Limb : MonoBehaviour
         _poses = poses;
         _keycode = keycode;
 
-        _previousPoseIndex = Random.Range(0, poses.Length);
-        _currentPoseIndex = (_previousPoseIndex + 1) % poses.Length;;
+        _previousPoseIndex = 0;
+        _currentPoseIndex = 0;
         _transitionTime = _limbAnimation.Duration;
 
         ApplyPose();
