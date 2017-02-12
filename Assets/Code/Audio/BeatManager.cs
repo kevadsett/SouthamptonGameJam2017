@@ -30,7 +30,7 @@ public static class BeatManager
 	public static void Reset()
 	{
 		_timeSinceLastBeat = 0;
-		IsBeatFrame = false;
+        IsBeatFrame = true;
 		CurrentBeat = 0;
 	}
 }

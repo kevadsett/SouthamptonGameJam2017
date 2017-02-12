@@ -34,8 +34,14 @@ public class MainGameState : GameState
 
 	public override void Update()
 	{
-		float dt = Time.deltaTime;
-		BeatManager.Update (dt);
+        float dt = Time.deltaTime;
+
+        if(BeatManager.IsBeatFrame && BeatManager.CurrentBeat % GameData.BeatsPerPose == 0)
+        {
+            JudgePoses(GameData.PoseManager.GetTargetPose(BeatManager.CurrentBeat / GameData.BeatsPerPose));
+        }
+
+        BeatManager.Update (dt);
 
 		UpdateMusic ();
 
@@ -43,8 +49,6 @@ public class MainGameState : GameState
 		GameData.Player2.UpdatePose(dt);
 
 		DetermineNextStep ();
-
-
 	}
 
 	public override void ExitState()
@@ -93,11 +97,6 @@ public class MainGameState : GameState
 		if (BeatManager.IsBeatFrame)
 		{
 			_beatsPassed++;
-
-            if(BeatManager.CurrentBeat % GameData.BeatsPerPose == 0)
-            {
-                JudgePoses(GameData.PoseManager.GetTargetPose(BeatManager.CurrentBeat / GameData.BeatsPerPose));
-            }
 
 			if (_beatsPassed == GameData.BeatsPerBar)
 			{
