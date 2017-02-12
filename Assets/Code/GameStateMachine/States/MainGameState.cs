@@ -163,7 +163,6 @@ public class MainGameState : GameState
 				AudioPlayer.PlaySound (trackName, Vector3.zero);
 			}
 			_beatsPassed++;
-			Debug.Log (_barsPassed + " : " + _beatsPassed);
 			if (_beatsPassed == 4)
 			{
 				_barsPassed++;
