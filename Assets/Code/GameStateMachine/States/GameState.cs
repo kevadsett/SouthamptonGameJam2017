@@ -19,4 +19,9 @@ public abstract class GameState
     {
         
     }
+
+    public virtual void OnChildPop()
+    {
+        
+    }
 }

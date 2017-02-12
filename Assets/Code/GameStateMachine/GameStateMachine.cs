@@ -43,9 +43,9 @@ public class GameStateMachine
 
     public void ChangeState(eGameState newState)
     {
-		if (_stateStack.Count > 0)
+		while(_stateStack.Count > 0)
 		{
-			PopState ();
+			PopState();
 		}
 		PushState (newState);
     }
@@ -61,5 +61,9 @@ public class GameStateMachine
 	{
 		GameState poppedState = _stateStack.Pop ();
 		poppedState.ExitState ();
+        if(_stateStack.Count > 0)
+        {
+            _stateStack.Peek().OnChildPop();
+        }
 	}
 }

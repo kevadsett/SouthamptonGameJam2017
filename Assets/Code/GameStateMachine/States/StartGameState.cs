@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class StartGameState : GameState
 {
+    private GameObject _poseRibbonForeground;
+    private GameObject _backgroundCanvas;
+    private GameObject _scoreLives;
+        
 	public override void EnterState ()
 	{
 		GameData.Player1 = CreatePlayer("Player1", -15f, GameData.LimbAnimation, GameData.Player1Parts, GameData.PoseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
@@ -15,21 +19,33 @@ public class StartGameState : GameState
 		GameData.PoseRibbon.transform.SetParent(GameData.CanvasTransform, false);
 		GameData.PoseRibbon.Setup(GameData.PoseDiagramPrefab);
 
-		GameObject poseRibbonForeground = GameObject.Instantiate(GameData.PoseRibbonForegroundPrefab);
-		poseRibbonForeground.transform.SetParent(foregroundCanvasTransform, false);
+		_poseRibbonForeground = GameObject.Instantiate(GameData.PoseRibbonForegroundPrefab);
+		_poseRibbonForeground.transform.SetParent(foregroundCanvasTransform, false);
 
-		GameObject backgroundCanvas = GameObject.Instantiate (GameData.BackgroundCanvasPrefab);
+		_backgroundCanvas = GameObject.Instantiate (GameData.BackgroundCanvasPrefab);
 		GameObject backgroundCameraObject = GameObject.Find ("BackgroundCamera");
-		backgroundCanvas.GetComponent<Canvas> ().worldCamera =  backgroundCameraObject.GetComponent<Camera>();
+		_backgroundCanvas.GetComponent<Canvas> ().worldCamera =  backgroundCameraObject.GetComponent<Camera>();
 		
-		GameObject scoreLivesPrefab = GameObject.Instantiate (GameData.ScoreLivesPrefab);
-		scoreLivesPrefab.transform.SetParent (foregroundCanvas.transform, false);
+		_scoreLives = GameObject.Instantiate (GameData.ScoreLivesPrefab);
+		_scoreLives.transform.SetParent (foregroundCanvas.transform, false);
 
         GameData.PoseManager.GeneratePosesForRound(GameData.WaveCount, 0);
 
         ViewBindings.Instance.BindValue ("Player1Score", "0");
         ViewBindings.Instance.BindValue ("Player2Score", "0");
 	}
+
+    public override void ExitState()
+    {
+        GameObject.Destroy(GameData.Player1.gameObject);
+        GameObject.Destroy(GameData.Player2.gameObject);
+        GameObject.Destroy(GameData.PoseRibbon.gameObject);
+        GameObject.Destroy(_poseRibbonForeground);
+        GameObject.Destroy(_backgroundCanvas);
+        GameObject.Destroy(_scoreLives);
+
+        GameData.PoseManager.Reset();
+    }
 
 	public override void Update ()
 	{
@@ -43,9 +59,14 @@ public class StartGameState : GameState
 
 		if (player1Pose.Matches(firstPose) && player2Pose.Matches(firstPose))
 		{
-			StateMachine.ChangeState (eGameState.Game);
+			StateMachine.PushState (eGameState.Game);
 		}
 	}
+
+    public override void OnChildPop()
+    {
+        StateMachine.ChangeState(eGameState.Title);
+    }
 
 	private Poser CreatePlayer(string name, float horizontalPosition, LimbAnimation limbAnimation, PoserParts poserParts, PoseLibrary poseLibrary, params KeyCode[] controls)
 	{

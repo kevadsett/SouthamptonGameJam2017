@@ -12,8 +12,6 @@ public class TitleState : GameState
 
 		_titleScreen = GameObject.Instantiate (GameData.TitleScreenPrefab);
 		_titleScreen.transform.SetParent (GameData.CanvasTransform, false);
-
-		GameObject.Instantiate(GameData.AudioPrefab);
 	}
 
 	public override void Update ()

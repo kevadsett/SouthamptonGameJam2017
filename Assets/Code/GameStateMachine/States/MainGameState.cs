@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class MainGameState : GameState
 {
+    private const int _maxRounds = 4;
 	private int _currentWaveIndex = 0;
-
 
 	private float[] _bpms = new float[] { 120, 140, 160, 180 };
 	private float _currentBpm;
@@ -22,13 +22,19 @@ public class MainGameState : GameState
 
 	public override void EnterState()
     {
+        _currentWaveIndex = 0;
+        _currentRound = 0;
+        _currentBpm = _bpms [_currentRound];
+        _player1Score = 0;
+        _player2Score = 0;
+        _beatsPassed = 0;
+        _barsPassed = 0;
+
         _judgingScreen = GameObject.Instantiate(GameData.JudgingScreenPrefab).GetComponent<JudgingScreen>();
         _judgingScreen.transform.SetParent(GameData.CanvasTransform, false);
 
 		ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
 		ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);
-
-		_currentBpm = _bpms [_currentRound];
 		ViewBindings.Instance.BindValue ("bpm", _currentBpm);
 	}
 
@@ -53,9 +59,9 @@ public class MainGameState : GameState
 
 	public override void ExitState()
 	{
-		GameObject.Destroy (GameData.PoseRibbon);
-		GameObject.Destroy (GameData.Player1);
-		GameObject.Destroy (GameData.Player2);
+        GameObject.Destroy(_judgingScreen.gameObject);
+
+        BeatManager.Reset();
 	}
 
 	private void JudgePoses(TargetPose pose)
@@ -87,8 +93,6 @@ public class MainGameState : GameState
 			string trackName = _currentBpm + "bpm";
 			if (AudioPlayer.IsPlaying (trackName) == false)
 			{
-                Debug.Log("PLAYING " + trackName);
-                
 				AudioPlayer.PlaySound (trackName, Vector3.zero);
 			}
 		}
@@ -109,7 +113,7 @@ public class MainGameState : GameState
 				{
 					_currentRound++;
 					_barsPassed = 0;
-					if (_currentRound < 4)
+					if (_currentRound < _maxRounds)
                     {
 						GameData.PoseManager.GeneratePosesForRound(GameData.WaveCount, _currentRound);
 						StartNextRound ();
@@ -118,15 +122,15 @@ public class MainGameState : GameState
 					{
                         if(_player1Score > _player2Score)
                         {
-                            StateMachine.ChangeState (eGameState.Player1Victory);
+                            StateMachine.PushState (eGameState.Player1Victory);
                         }
                         else if(_player1Score < _player2Score)
                         {
-                            StateMachine.ChangeState (eGameState.Player2Victory);
+                            StateMachine.PushState (eGameState.Player2Victory);
                         }
                         else
                         {
-                            StateMachine.ChangeState (eGameState.Draw);
+                            StateMachine.PushState (eGameState.Draw);
                         }
 					}
 				}
@@ -140,5 +144,13 @@ public class MainGameState : GameState
 		StateMachine.PushState (eGameState.InterimScore);
 		ViewBindings.Instance.BindValue ("bpm", _currentBpm);
 	}
+
+    public override void OnChildPop()
+    {
+        if(_currentRound >= _maxRounds)
+        {
+            StateMachine.PopState();
+        }
+    }
 }
 

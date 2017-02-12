@@ -13,25 +13,25 @@ public class PoseManager
         _targetPoses = new List<TargetPose>();
 	}
 
-	public void GeneratePosesForRound(int count, int waveIndex)
+    public void Reset()
     {
-		int mutation = 2;
-		if (mutation == 0)
-		{
-			mutation = 1;
-		}
         for(int i=0; i<_targetPoses.Count; i++)
         {
             GameObject.Destroy(_targetPoses[i].Diagram);
         }
 
         _targetPoses.Clear();
+    }
+
+	public void GeneratePosesForRound(int count, int waveIndex)
+    {
+        Reset();
 
         for(int i=0; i<count; i++)
         {
             TargetPose newPose = new TargetPose
             {
-                Pose = _poseLibrary.GeneratePose(mutation),
+                Pose = _poseLibrary.GeneratePose(1 + waveIndex),
                 Beat = GameData.BeatsPerPose * i
             };
 
