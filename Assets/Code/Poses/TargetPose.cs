@@ -7,7 +7,7 @@ public class TargetPose
 	private static int _instanceIndex;
     public Pose Pose;
 	public bool HasExpired;
-
+    public int Beat;
 	public bool HasBeenJudged;
 
     public override string ToString()

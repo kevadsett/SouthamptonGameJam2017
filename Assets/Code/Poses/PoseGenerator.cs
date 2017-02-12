@@ -20,21 +20,17 @@ public class PoseGenerator
 		{
 			if (_beatsSinceLastPose == 0)
 			{
-				newPose = GeneratePose ();
+                newPose = new TargetPose
+                {
+                    Pose = _poseLibrary.GeneratePose(),
+                    Beat = _beatsPerPose * poseList.Count,
+                    HasExpired = false
+                };
 				poseList.Add (newPose);
 			}
 			_beatsSinceLastPose = (_beatsSinceLastPose + 1) % _beatsPerPose;
 		}
 		return newPose;
-	}
-
-    public TargetPose GeneratePose()
-    {
-        return new TargetPose
-        {
-            Pose = _poseLibrary.GeneratePose(),
-            HasExpired = false
-        };
 	}
 
 	public void Reset()

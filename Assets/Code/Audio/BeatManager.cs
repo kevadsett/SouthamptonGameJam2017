@@ -19,7 +19,7 @@ public static class BeatManager
 		{
 			_timeSinceLastBeat -= beatTime;
 			IsBeatFrame = true;
-			CurrentBeat = (CurrentBeat + 1) % 4;
+            CurrentBeat = CurrentBeat + 1;
 		}
 		else
 		{
