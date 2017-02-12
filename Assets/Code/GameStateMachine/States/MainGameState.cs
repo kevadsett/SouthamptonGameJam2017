@@ -54,6 +54,26 @@ public class MainGameState : GameState
 		float dt = Time.deltaTime;
 		BeatManager.Update (dt);
 
+		UpdateMusic ();
+
+		GameData.Player1.UpdatePose(dt);
+		GameData.Player2.UpdatePose(dt);
+
+		UpdatePoses ();
+
+		DetermineNextStep ();
+	}
+
+	public override void ExitState()
+	{
+		_poseGenerator = null;
+		GameObject.Destroy (GameData.PoseRibbon);
+		GameObject.Destroy (GameData.Player1);
+		GameObject.Destroy (GameData.Player2);
+	}
+
+	private void UpdatePoses()
+	{
 		TargetPose newPose = _poseGenerator.AddPoseIfNeeded (_poseTargets);
 
 		if (newPose != null)
@@ -63,9 +83,9 @@ public class MainGameState : GameState
 
 		_posesToRemove.Clear ();
 
-        for(int i=0; i<_poseTargets.Count; i++)
-        {
-            TargetPose pose = _poseTargets[i];
+		for(int i=0; i<_poseTargets.Count; i++)
+		{
+			TargetPose pose = _poseTargets[i];
 
 			if (pose.HasExpired)
 			{
@@ -75,57 +95,6 @@ public class MainGameState : GameState
 				}
 			}
 		}
-
-		if (_player1Lives < 1 && _player2Lives > 0)
-		{
-			StateMachine.ChangeState (eGameState.Player2Victory);
-		}
-		else if (_player2Lives < 1 && _player1Lives > 0)
-		{
-			StateMachine.ChangeState (eGameState.Player1Victory);
-		}
-		else if (_player1Lives < 1 && _player2Lives == 0)
-		{
-			StateMachine.ChangeState (eGameState.Draw);
-		}
-
-		GameData.Player1.UpdatePose(dt);
-		GameData.Player2.UpdatePose(dt);
-
-		if (BeatManager.IsBeatFrame)
-		{
-			string trackName = _currentBpm + "bpm";
-			if (AudioPlayer.IsPlaying (trackName) == false)
-			{
-				AudioPlayer.PlaySound (trackName, Vector3.zero);
-			}
-			_beatsPassed++;
-			if (_beatsPassed == 4)
-			{
-				_barsPassed++;
-				_beatsPassed = 0;
-				if (_barsPassed == 12)
-				{
-					_currentRound++;
-					_barsPassed = 0;
-					if (_currentRound < 4)
-					{
-						
-						StartNextRound ();
-					}
-					else
-					{
-						// TODO: Have an "everybody wins" state or reset or something.
-						StateMachine.ChangeState (eGameState.Draw);
-					}
-				}
-			}
-		}
-	}
-
-	public override void ExitState()
-	{
-		_poseGenerator = null;
 	}
 
 	private void JudgePoses(TargetPose pose)
@@ -172,6 +141,58 @@ public class MainGameState : GameState
 			if (_currentWaveIndex == _poseTargetsPerWave)
 			{
 				StartNextRound();
+			}
+		}
+	}
+
+	private void UpdateMusic()
+	{
+		if (BeatManager.IsBeatFrame)
+		{
+			string trackName = _currentBpm + "bpm";
+			if (AudioPlayer.IsPlaying (trackName) == false)
+			{
+				AudioPlayer.PlaySound (trackName, Vector3.zero);
+			}
+		}
+	}
+
+	private void DetermineNextStep()
+	{
+		if (_player1Lives < 1 && _player2Lives > 0)
+		{
+			StateMachine.ChangeState (eGameState.Player2Victory);
+		}
+		else if (_player2Lives < 1 && _player1Lives > 0)
+		{
+			StateMachine.ChangeState (eGameState.Player1Victory);
+		}
+		else if (_player1Lives < 1 && _player2Lives == 0)
+		{
+			StateMachine.ChangeState (eGameState.Draw);
+		}
+
+		if (BeatManager.IsBeatFrame)
+		{
+			_beatsPassed++;
+			if (_beatsPassed == 4)
+			{
+				_barsPassed++;
+				_beatsPassed = 0;
+				if (_barsPassed == 12)
+				{
+					_currentRound++;
+					_barsPassed = 0;
+					if (_currentRound < 4)
+					{
+						StartNextRound ();
+					}
+					else
+					{
+						// TODO: Have an "everybody wins" state or reset or something.
+						StateMachine.ChangeState (eGameState.Draw);
+					}
+				}
 			}
 		}
 	}
