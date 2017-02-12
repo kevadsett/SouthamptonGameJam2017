@@ -45,8 +45,6 @@ public class MainGameState : GameState
 
 		_currentBpm = _bpms [_currentRound];
 		ViewBindings.Instance.BindValue ("bpm", _currentBpm);
-
-		GameObject.Instantiate(GameData.AudioPrefab);
 	}
 
 	public override void Update()

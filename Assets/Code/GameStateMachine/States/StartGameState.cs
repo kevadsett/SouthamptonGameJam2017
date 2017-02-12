@@ -21,6 +21,9 @@ public class StartGameState : GameState
 		GameObject backgroundCanvas = GameObject.Instantiate (GameData.BackgroundCanvasPrefab);
 		GameObject backgroundCameraObject = GameObject.Find ("BackgroundCamera");
 		backgroundCanvas.GetComponent<Canvas> ().worldCamera =  backgroundCameraObject.GetComponent<Camera>();
+
+		GameObject scoreLivesPrefab = GameObject.Instantiate (GameData.ScoreLivesPrefab);
+		scoreLivesPrefab.transform.SetParent (foregroundCanvas.transform, false);
 	}
 
 	public override void Update ()
