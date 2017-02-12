@@ -117,8 +117,18 @@ public class MainGameState : GameState
 					}
 					else
 					{
-						// TODO: Have an "everybody wins" state or reset or something.
-						StateMachine.ChangeState (eGameState.Draw);
+                        if(_player1Score > _player2Score)
+                        {
+                            StateMachine.ChangeState (eGameState.Player1Victory);
+                        }
+                        else if(_player1Score < _player2Score)
+                        {
+                            StateMachine.ChangeState (eGameState.Player2Victory);
+                        }
+                        else
+                        {
+                            StateMachine.ChangeState (eGameState.Draw);
+                        }
 					}
 				}
 			}

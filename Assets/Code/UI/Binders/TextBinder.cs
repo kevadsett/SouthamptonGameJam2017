@@ -12,6 +12,8 @@ public class TextBinder : MonoBehaviour
 	private void Awake ()
 	{
 		text = GetComponent<Text> ();
+
+        Update();
 	}
 
 	private void Update ()

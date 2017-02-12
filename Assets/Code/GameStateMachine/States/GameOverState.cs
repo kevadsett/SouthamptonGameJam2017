@@ -11,6 +11,7 @@ public enum eGameOverType
 public class GameOverState : GameState
 {
 	eGameOverType _type;
+
 	public GameOverState (eGameOverType type)
 	{
 		_type = type;
@@ -18,18 +19,13 @@ public class GameOverState : GameState
 
 	public override void EnterState ()
 	{
-		base.EnterState ();
-		Debug.Log (_type);
-	}
+        GameObject foregroundCanvas = GameObject.Find("ForegroundUICanvas");
+        RectTransform foregroundCanvasTransform = foregroundCanvas.GetComponent<RectTransform>();
 
-	public override void Update ()
-	{
-		base.Update ();
-	}
+        GameOverScreen gameOverScreen = GameObject.Instantiate(GameData.GameOverScreenPrefab).GetComponent<GameOverScreen>();
+        gameOverScreen.transform.SetParent(foregroundCanvas.transform, false);
 
-	public override void ExitState ()
-	{
-		base.ExitState ();
+        gameOverScreen.Setup(_type);
 	}
 }
 
