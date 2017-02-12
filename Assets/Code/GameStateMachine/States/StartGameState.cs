@@ -21,13 +21,11 @@ public class StartGameState : GameState
 		GameObject backgroundCanvas = GameObject.Instantiate (GameData.BackgroundCanvasPrefab);
 		GameObject backgroundCameraObject = GameObject.Find ("BackgroundCamera");
 		backgroundCanvas.GetComponent<Canvas> ().worldCamera =  backgroundCameraObject.GetComponent<Camera>();
-
+		
 		GameObject scoreLivesPrefab = GameObject.Instantiate (GameData.ScoreLivesPrefab);
 		scoreLivesPrefab.transform.SetParent (foregroundCanvas.transform, false);
 
-        GameData.PoseManager.GeneratePosesForRound(GameData.WaveCount);
-
-
+        GameData.PoseManager.GeneratePosesForRound(GameData.WaveCount, 0);
 
         ViewBindings.Instance.BindValue ("Player1Score", "0");
         ViewBindings.Instance.BindValue ("Player2Score", "0");
@@ -35,25 +33,19 @@ public class StartGameState : GameState
 
 	public override void Update ()
 	{
-        float dt = Time.deltaTime;
-        GameData.Player1.UpdatePose(dt);
-        GameData.Player2.UpdatePose(dt);
+		float dt = Time.deltaTime;
+		GameData.Player1.UpdatePose(dt);
+		GameData.Player2.UpdatePose(dt);
 
-        Pose firstPose = GameData.PoseManager.FirstPose.Pose;
-        Pose player1Pose = GameData.Player1.GetCurrentPose();
-        Pose player2Pose = GameData.Player2.GetCurrentPose();
+		Pose firstPose = GameData.PoseManager.FirstPose.Pose;
+		Pose player1Pose = GameData.Player1.GetCurrentPose();
+		Pose player2Pose = GameData.Player2.GetCurrentPose();
 
-        if (player1Pose.Matches(firstPose) && player2Pose.Matches(firstPose))
+		if (player1Pose.Matches(firstPose) && player2Pose.Matches(firstPose))
 		{
-			StateMachine.ChangeState(eGameState.Game);
+			StateMachine.ChangeState (eGameState.Game);
 		}
 	}
-
-	public override void ExitState ()
-	{
-		
-	}
-
 
 	private Poser CreatePlayer(string name, float horizontalPosition, LimbAnimation limbAnimation, PoserParts poserParts, PoseLibrary poseLibrary, params KeyCode[] controls)
 	{
