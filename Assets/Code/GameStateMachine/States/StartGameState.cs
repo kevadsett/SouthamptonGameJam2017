@@ -5,8 +5,8 @@ public class StartGameState : GameState
 {
 	public override void EnterState ()
 	{
-		GameData.Player1 = CreatePlayer("Player1", -15f, GameData.LimbAnimation, GameData.PlayerParts, GameData.PoseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
-		GameData.Player2 = CreatePlayer("Player2", 15f, GameData.LimbAnimation, GameData.PlayerParts, GameData.PoseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
+		GameData.Player1 = CreatePlayer("Player1", -15f, GameData.LimbAnimation, GameData.Player1Parts, GameData.PoseLibrary, KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S);
+		GameData.Player2 = CreatePlayer("Player2", 15f, GameData.LimbAnimation, GameData.Player2Parts, GameData.PoseLibrary, KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L);
 
 		GameObject foregroundCanvas = GameObject.Find("ForegroundUICanvas");
 		RectTransform foregroundCanvasTransform = foregroundCanvas.GetComponent<RectTransform>();

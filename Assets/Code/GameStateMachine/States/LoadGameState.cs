@@ -9,7 +9,8 @@ public class LoadGameState : GameState
 		GameData.PoseLibrary = Resources.Load<PoseLibrary>("PoseLibrary");
 		// Load the players.
 		GameData.LimbAnimation = Resources.Load<LimbAnimation>("LimbAnimation");
-		GameData.PlayerParts = Resources.Load<PoserParts>("Parts/MrBaguetteParts");
+        GameData.Player1Parts = Resources.Load<PoserParts>("Parts/MrBaguetteParts");
+		GameData.Player2Parts = Resources.Load<PoserParts>("Parts/MrFrancaisParts");
 		// Load the stickman.
 		GameData.StickmanParts = Resources.Load<PoserParts>("Parts/StickmanParts");
 

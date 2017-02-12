@@ -4,7 +4,8 @@ public static class GameData
 {
 	public static PoseLibrary PoseLibrary;
 	public static LimbAnimation LimbAnimation;
-	public static PoserParts PlayerParts;
+	public static PoserParts Player1Parts;
+    public static PoserParts Player2Parts;
 	public static PoserParts StickmanParts;
 
 	public static GameObject PoseRibbonPrefab;
