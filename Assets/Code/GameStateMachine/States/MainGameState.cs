@@ -142,7 +142,7 @@ public class MainGameState : GameState
     {
         _currentBpm = _bpms [++_currentWaveIndex];
 		StateMachine.PushState (eGameState.InterimScore);
-		ViewBindings.Instance.BindValue ("bpm", _currentBpm);
+        ViewBindings.Instance.BindValue ("bpm", 0f);
 	}
 
     public override void OnChildPop()
@@ -150,6 +150,10 @@ public class MainGameState : GameState
         if(_currentRound >= _maxRounds)
         {
             StateMachine.PopState();
+        }
+        else
+        {
+            ViewBindings.Instance.BindValue ("bpm", _currentBpm);
         }
     }
 }
