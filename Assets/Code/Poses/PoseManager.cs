@@ -27,11 +27,13 @@ public class PoseManager
     {
         Reset();
 
+        int mutations = waveIndex < 1 ? 1 : 2;
+
         for(int i=0; i<count; i++)
         {
             TargetPose newPose = new TargetPose
             {
-                Pose = _poseLibrary.GeneratePose(1 + waveIndex),
+                Pose = _poseLibrary.GeneratePose(mutations),
                 Beat = GameData.BeatsPerPose * i
             };
 
