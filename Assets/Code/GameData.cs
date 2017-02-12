@@ -29,5 +29,6 @@ public static class GameData
     public static PoseManager PoseManager;
     public const int BeatsPerPose = 8;
     public const int BarCount = 12;
-    public const int WaveCount = 6;
+    public const int WaveCount = 7;
+    public const int BeatsPerBar = 4;
 }

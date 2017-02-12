@@ -41,6 +41,11 @@ public class PoseManager
         get { return _targetPoses[0]; }
     }
 
+    public TargetPose GetTargetPose(int index)
+    {
+        return _targetPoses[index];
+    }
+
 	private void DebugPrint(List<TargetPose> poseList)
 	{
 		string result = "[ - ";

@@ -15,9 +15,6 @@ public class MainGameState : GameState
 	private int _player1Score;
 	private int _player2Score;
 
-	private int _player1Lives = 3;
-	private int _player2Lives = 3;
-
     private JudgingScreen _judgingScreen;
 
 	private int _beatsPassed;
@@ -29,9 +26,7 @@ public class MainGameState : GameState
         _judgingScreen.transform.SetParent(GameData.CanvasTransform, false);
 
 		ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
-		ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
 		ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);
-		ViewBindings.Instance.BindValue ("Player2Lives", "" + _player2Lives);
 
 		_currentBpm = _bpms [_currentRound];
 		ViewBindings.Instance.BindValue ("bpm", _currentBpm);
@@ -50,6 +45,8 @@ public class MainGameState : GameState
 		GameData.Player2.UpdatePose(dt);
 
 		DetermineNextStep ();
+
+
 	}
 
 	public override void ExitState()
@@ -62,7 +59,6 @@ public class MainGameState : GameState
 	private void JudgePoses(TargetPose pose)
 	{
 		pose.HasBeenJudged = true;
-		bool someoneWasWrong = false;
 
 		bool player1Success = GameData.Player1.GetCurrentPose().Matches(pose.Pose);
 		bool player2Success = GameData.Player2.GetCurrentPose().Matches(pose.Pose);
@@ -74,36 +70,11 @@ public class MainGameState : GameState
 			_player1Score++;
 			ViewBindings.Instance.BindValue ("Player1Score", "" + _player1Score);
 		}
-		else
-		{
-			_player1Lives--;
-			ViewBindings.Instance.BindValue ("Player1Lives", "" + _player1Lives);
-			someoneWasWrong = true;
-		}
 
 		if(player2Success)
 		{
 			_player2Score++;
 			ViewBindings.Instance.BindValue ("Player2Score", "" + _player2Score);
-		}
-		else
-		{
-			_player2Lives--;
-			ViewBindings.Instance.BindValue ("Player2Lives", "" + _player2Lives);
-			someoneWasWrong = true;
-		}
-
-		if (someoneWasWrong)
-		{
-			StateMachine.PushState(eGameState.InterimScore);
-		}
-		else
-		{
-			_currentWaveIndex++;
-			if (_currentWaveIndex == GameData.WaveCount)
-			{
-				StartNextRound();
-			}
 		}
 	}
 
@@ -121,27 +92,21 @@ public class MainGameState : GameState
 
 	private void DetermineNextStep()
 	{
-		if (_player1Lives < 1 && _player2Lives > 0)
-		{
-			StateMachine.ChangeState (eGameState.Player2Victory);
-		}
-		else if (_player2Lives < 1 && _player1Lives > 0)
-		{
-			StateMachine.ChangeState (eGameState.Player1Victory);
-		}
-		else if (_player1Lives < 1 && _player2Lives == 0)
-		{
-			StateMachine.ChangeState (eGameState.Draw);
-		}
-
 		if (BeatManager.IsBeatFrame)
 		{
 			_beatsPassed++;
-			if (_beatsPassed == 4)
+
+            if(BeatManager.CurrentBeat % GameData.BeatsPerPose == 0)
+            {
+                JudgePoses(GameData.PoseManager.GetTargetPose(BeatManager.CurrentBeat / GameData.BeatsPerPose));
+            }
+
+			if (_beatsPassed == GameData.BeatsPerBar)
 			{
 				_barsPassed++;
 				_beatsPassed = 0;
-				if (_barsPassed == 12)
+
+				if (_barsPassed == GameData.BarCount)
 				{
 					_currentRound++;
 					_barsPassed = 0;
