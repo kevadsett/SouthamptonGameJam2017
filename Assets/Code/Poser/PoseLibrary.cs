@@ -25,8 +25,6 @@ public class PoseLibrary : ScriptableObject
 			}
 		}
 
-		Debug.Log (PosesToStr (newLimbPoses));
-
         return new Pose
         {
 			LimbPoses = newLimbPoses

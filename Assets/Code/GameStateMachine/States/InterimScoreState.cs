@@ -13,6 +13,7 @@ public class InterimScoreState : GameState
 	}
 	public override void EnterState()
 	{
+		BeatManager.Reset ();
 		GameObject interimScorePrefab = Resources.Load<GameObject> ("UI/InterimScore");
 		RectTransform UICanvasTransform = GameObject.Find ("UICanvas").GetComponent<RectTransform> ();
 		_screen = GameObject.Instantiate (interimScorePrefab);

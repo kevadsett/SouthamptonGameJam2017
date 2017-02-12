@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PoseGenerator
 {
     private PoseLibrary _poseLibrary;
-	private int _beatsPerPose = 8;
+	private int _beatsPerPose = 4;
 	private float _beatsSinceLastPose;
 
     public PoseGenerator (PoseLibrary poseLibrary)
@@ -15,18 +15,17 @@ public class PoseGenerator
 
 	public TargetPose AddPoseIfNeeded(List<TargetPose> poseList)
 	{
+		TargetPose newPose = null;
 		if (BeatManager.IsBeatFrame)
 		{
-			_beatsSinceLastPose++;
-			if (_beatsSinceLastPose == _beatsPerPose)
+			if (_beatsSinceLastPose == 0)
 			{
-				_beatsSinceLastPose = 0;
-				TargetPose newPose = GeneratePose ();
+				newPose = GeneratePose ();
 				poseList.Add (newPose);
-				return newPose;
 			}
+			_beatsSinceLastPose = (_beatsSinceLastPose + 1) % _beatsPerPose;
 		}
-		return null;
+		return newPose;
 	}
 
     public TargetPose GeneratePose()
@@ -36,6 +35,11 @@ public class PoseGenerator
             Pose = _poseLibrary.GeneratePose(),
             HasExpired = false
         };
+	}
+
+	public void Reset()
+	{
+		_beatsSinceLastPose = 0;
 	}
 
 	private void DebugPrint(List<TargetPose> poseList)

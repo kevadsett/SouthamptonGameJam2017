@@ -11,7 +11,7 @@ public class AudioPlayer : MonoBehaviour
 	{
 		Players.Add (name, this);
 	}
-
+		
 	private void Play (Vector3 position)
 	{
 		AudioSource source = null;
@@ -26,6 +26,20 @@ public class AudioPlayer : MonoBehaviour
 		source.Play ();
 	}
 
+	private bool IsPlaying()
+	{
+		AudioSource source = null;
+		for (int i = 0; i < sources.Length; i++)
+		{
+			source = sources [i];
+			if (source.isPlaying)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static void PlaySound (string soundName, Vector3 position)
 	{
 		if (Players.ContainsKey (soundName))
@@ -36,5 +50,15 @@ public class AudioPlayer : MonoBehaviour
 		{
 			Debug.LogError ("OH NO THERE IS NO SOUND TO PLAY! " + soundName);
 		}
+	}
+
+	public static bool IsPlaying(string soundName)
+	{
+		if (Players.ContainsKey (soundName))
+		{
+			AudioPlayer player = Players [soundName];
+			return player.IsPlaying ();
+		}
+		return false;
 	}
 }
