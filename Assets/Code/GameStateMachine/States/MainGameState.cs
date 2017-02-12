@@ -53,10 +53,6 @@ public class MainGameState : GameState
 		_posesToRemove = new List<TargetPose> ();
 		_poseGenerator = new PoseGenerator (_poseLibrary);
 
-		// Load the audio.
-		GameObject audioPrefab = Resources.Load<GameObject>("Audio");
-		GameObject.Instantiate(audioPrefab);
-
         // Load the players.
         _limbAnimation = Resources.Load<LimbAnimation>("LimbAnimation");
         PoserParts playerParts = Resources.Load<PoserParts>("Parts/MrBaguetteParts");
@@ -106,6 +102,12 @@ public class MainGameState : GameState
 
 		_currentBpm = _bpms [_currentRound];
 		ViewBindings.Instance.BindValue ("bpm", _currentBpm);
+
+
+		// Load the audio.
+		GameObject audioPrefab = Resources.Load<GameObject>("Audio");
+		GameObject.Instantiate(audioPrefab);
+		AudioPlayer.PlaySound(_currentBpm + "bpm", Vector3.zero);
 	}
 
 	public override void Update()

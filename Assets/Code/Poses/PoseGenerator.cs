@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PoseGenerator
 {
     private PoseLibrary _poseLibrary;
-	private int _beatsPerPose = 12;
+	private int _beatsPerPose = 8;
 	private float _beatsSinceLastPose;
 
     public PoseGenerator (PoseLibrary poseLibrary)

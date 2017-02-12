@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class PoseDiagramController : MonoBehaviour
 {
-    private TargetPose _pose;
     private RectTransform _rect;
     private RectTransform _parentRect;
 	private float _moveSpeed = 100f;
 
 	public void Setup(RectTransform parentRect, TargetPose pose, LimbAnimation limbAnimation, PoserParts stickmanParts, PoseLibrary poseLibrary)
 	{
-		_pose = pose;
 		_rect = GetComponent<RectTransform> ();
         _parentRect = parentRect;
 
