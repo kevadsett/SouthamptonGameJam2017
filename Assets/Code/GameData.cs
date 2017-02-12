@@ -25,4 +25,9 @@ public static class GameData
 	public static GameObject AudioPrefab;
 
 	public static RectTransform CanvasTransform;
+
+    public static PoseManager PoseManager;
+    public const int BeatsPerPose = 8;
+    public const int BarCount = 12;
+    public const int WaveCount = 6;
 }

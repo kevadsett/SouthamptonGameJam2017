@@ -21,11 +21,21 @@ public class StartGameState : GameState
 		GameObject backgroundCanvas = GameObject.Instantiate (GameData.BackgroundCanvasPrefab);
 		GameObject backgroundCameraObject = GameObject.Find ("BackgroundCamera");
 		backgroundCanvas.GetComponent<Canvas> ().worldCamera =  backgroundCameraObject.GetComponent<Camera>();
+
+        GameData.PoseManager.GeneratePosesForRound(GameData.WaveCount);
 	}
 
 	public override void Update ()
 	{
-		if (GameData.Player1.GetCurrentPose().Matches(GameData.Player2.GetCurrentPose()))
+        float dt = Time.deltaTime;
+        GameData.Player1.UpdatePose(dt);
+        GameData.Player2.UpdatePose(dt);
+
+        Pose firstPose = GameData.PoseManager.FirstPose.Pose;
+        Pose player1Pose = GameData.Player1.GetCurrentPose();
+        Pose player2Pose = GameData.Player2.GetCurrentPose();
+
+        if (player1Pose.Matches(firstPose) && player2Pose.Matches(firstPose))
 		{
 			StateMachine.ChangeState(eGameState.Game);
 		}
