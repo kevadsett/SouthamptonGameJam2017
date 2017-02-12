@@ -109,7 +109,7 @@ public class MainGameState : GameState
 					_barsPassed = 0;
 					if (_currentRound < 4)
                     {
-                        GameData.PoseManager.GeneratePosesForRound(GameData.WaveCount);
+						GameData.PoseManager.GeneratePosesForRound(GameData.WaveCount, _currentRound);
 						StartNextRound ();
 					}
 					else

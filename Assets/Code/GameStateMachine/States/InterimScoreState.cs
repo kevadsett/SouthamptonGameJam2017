@@ -22,8 +22,15 @@ public class InterimScoreState : GameState
 
 	public override void Update()
 	{
-		_timeInState += Time.deltaTime;
-		if (_timeInState >= _pauseTime)
+		float dt = Time.deltaTime;
+		GameData.Player1.UpdatePose(dt);
+		GameData.Player2.UpdatePose(dt);
+
+		Pose firstPose = GameData.PoseManager.FirstPose.Pose;
+		Pose player1Pose = GameData.Player1.GetCurrentPose();
+		Pose player2Pose = GameData.Player2.GetCurrentPose();
+
+		if (player1Pose.Matches(firstPose) && player2Pose.Matches(firstPose))
 		{
 			StateMachine.PopState ();
 		}

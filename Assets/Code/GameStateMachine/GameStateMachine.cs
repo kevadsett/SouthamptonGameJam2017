@@ -34,8 +34,11 @@ public class GameStateMachine
 
     public void Update()
     {
-		_currentState = _stateStack.Peek ();
-        _currentState.Update();
+		if (_stateStack.Count > 0)
+		{
+			_currentState = _stateStack.Peek ();
+			_currentState.Update ();
+		}
     }
 
     public void ChangeState(eGameState newState)

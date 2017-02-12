@@ -13,8 +13,13 @@ public class PoseManager
         _targetPoses = new List<TargetPose>();
 	}
 
-    public void GeneratePosesForRound(int count)
+	public void GeneratePosesForRound(int count, int waveIndex)
     {
+		int mutation = 2;
+		if (mutation == 0)
+		{
+			mutation = 1;
+		}
         for(int i=0; i<_targetPoses.Count; i++)
         {
             GameObject.Destroy(_targetPoses[i].Diagram);
@@ -26,7 +31,7 @@ public class PoseManager
         {
             TargetPose newPose = new TargetPose
             {
-                Pose = _poseLibrary.GeneratePose(),
+                Pose = _poseLibrary.GeneratePose(mutation),
                 Beat = GameData.BeatsPerPose * i
             };
 
