@@ -10,7 +10,8 @@ public enum eGameState
 	Player2Victory,
 	Draw,
 	InterimScore,
-	Start
+	Start,
+	Title
 }
 
 public class GameStateMachine
