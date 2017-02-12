@@ -21,9 +21,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eab2b1e5bc92f44b4b37f4e24fb00d32, type: 2}
   LeftLegPoses:
   - {fileID: 11400000, guid: 24f51943532734b0f9b361f318878529, type: 2}
-  - {fileID: 11400000, guid: b8237f21f317b4aee906c7a859dd483d, type: 2}
   - {fileID: 11400000, guid: 0e63c72f3c700408680885b761f12dde, type: 2}
+  - {fileID: 11400000, guid: b8237f21f317b4aee906c7a859dd483d, type: 2}
   RightLegPoses:
   - {fileID: 11400000, guid: 6cc198bef9fe3457192dfc28931956dd, type: 2}
-  - {fileID: 11400000, guid: 83b723c40ebfd4c7fb87f9036609ab16, type: 2}
   - {fileID: 11400000, guid: cdaef720a8f874962b2600fdc1266008, type: 2}
+  - {fileID: 11400000, guid: 83b723c40ebfd4c7fb87f9036609ab16, type: 2}
