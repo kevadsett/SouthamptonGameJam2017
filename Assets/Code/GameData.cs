@@ -18,12 +18,13 @@ public static class GameData
 
 	public static GameObject TitleScreenPrefab;
     public static GameObject GameOverScreenPrefab;
-    public static GameObject InterimScreen;
+    public static GameObject FlagScreenPrefab;
 
 	public static Poser Player1;
 	public static Poser Player2;
 
 	public static PoseRibbon PoseRibbon;
+    public static FlagScreen FlagScreen;
 
 	public static GameObject AudioPrefab;
 

@@ -3,15 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class InterimScoreState : GameState
 {
-	private GameObject _screen;
-
 	public override void EnterState()
 	{
 		BeatManager.Reset();
 		RectTransform UICanvasTransform = GameObject.Find ("UICanvas").GetComponent<RectTransform> ();
-		_screen = GameObject.Instantiate (GameData.InterimScreen);
-		_screen.transform.SetParent (UICanvasTransform, false);
+
+        GameData.FlagScreen.SetVisible(true);
 	}
+
+    public override void ExitState()
+    {
+        GameData.FlagScreen.SetVisible(false);
+    }
 
 	public override void Update()
 	{
@@ -27,11 +30,6 @@ public class InterimScoreState : GameState
 		{
 			StateMachine.PopState ();
 		}
-	}
-
-	public override void ExitState ()
-	{
-		GameObject.Destroy (_screen);
 	}
 }
 

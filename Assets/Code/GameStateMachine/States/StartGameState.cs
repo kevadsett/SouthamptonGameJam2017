@@ -6,7 +6,6 @@ public class StartGameState : GameState
     private GameObject _poseRibbonForeground;
     private GameObject _backgroundCanvas;
     private GameObject _scoreLives;
-    private GameObject _interimScreen;  
 
 	public override void EnterState ()
 	{
@@ -32,8 +31,9 @@ public class StartGameState : GameState
 
         ViewBindings.Instance.BindValue("CurrentRound", 0);
 
-        _interimScreen = GameObject.Instantiate (GameData.InterimScreen);
-        _interimScreen.transform.SetParent (foregroundCanvas.transform, false);
+        GameData.FlagScreen = GameObject.Instantiate (GameData.FlagScreenPrefab).GetComponent<FlagScreen>();
+        GameData.FlagScreen.transform.SetParent (foregroundCanvas.transform, false);
+        GameData.FlagScreen.SetVisible(true);
 
         GameData.PoseManager.GeneratePosesForRound(GameData.WaveCount, 0);
 
@@ -65,7 +65,8 @@ public class StartGameState : GameState
 
 		if (player1Pose.Matches(firstPose) && player2Pose.Matches(firstPose))
 		{
-            GameObject.Destroy(_interimScreen);
+            GameData.FlagScreen.SetVisible(false);
+
 			StateMachine.PushState (eGameState.Game);
 		}
 	}
